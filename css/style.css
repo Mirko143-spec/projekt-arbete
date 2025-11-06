@@ -1,0 +1,200 @@
+@import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins';
+    font-weight: 400;
+}
+
+:root {
+    --p-size: 16px;
+    --p-primary-color:White; 
+    --p-secondary-color:black;
+    --p-lowopacity-color:#FFC9C9;
+}
+body {
+    height: fit-content;
+    background: linear-gradient(135deg, #59168B 0%, #312C85 50%, #1C398E 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+p {
+    font-size: var(--p-size);
+}
+main {
+    /* border: solid black 2px; */
+    width: 60vw;
+    color: white;    
+    margin: 5vh 0 5vh 0;
+}
+
+/* top section */ 
+.top-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+.top-section-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+.top-section-info {
+    width: 100%;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+.top-section-timer, .top-section-question span {
+    display: flex;
+    gap: 10px;
+}
+.top-section-question {
+    width: 100%;
+    padding: 15px;;
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+}
+
+/* middle section */
+.middle-section {
+    display: flex;
+    flex-direction: row;
+    margin: 1rem 0 0 0;    
+    justify-content: space-between;
+}
+
+#questionBar {
+    width: 100%;
+    align-self: center;
+}
+/* //Get rid of website stylesheet
+//Weird green grey progressbar
+} */
+
+#questionBar[value] {
+    /* Reset the default appearance */
+    appearance: none;
+    height: 18px;
+}
+
+#questionBar[value]::-webkit-progress-bar {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    box-shadow: inset 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+#questionBar[value]::-webkit-progress-value {
+    background: black;
+    box-shadow: none;
+    border-color: transparent;
+    border-radius: 10px;
+}
+
+.middle-section-box {
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    padding: 30px;
+    gap: 56px;
+    background-color: white;
+    border-radius: 10px;
+    color: black;
+}
+#answers {
+    flex-direction: column;
+    display: flex;
+    gap: 15px;
+    list-style: none;
+}
+
+#answers li {
+    display: flex;
+    border: 0.5px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 20px;
+    gap: 10px;
+}
+
+#answers li span {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+#answers li span h4 {
+    color: rgba(0, 0, 0, 0.6);
+}
+.points-box {
+    display: flex;
+}
+.points-box span {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.pointsBar-container {
+    height: 394px;
+}
+#pointsBar {
+    width: 44px;
+    height: 394px;
+    writing-mode: vertical-lr;
+    direction: rtl;
+}
+#pointsBar[value] {
+    /* Reset the default appearance */
+    appearance: none;
+}
+
+#pointsBar[value]::-webkit-progress-bar {
+    background-color: rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    box-shadow: inset 0px 0.5px 1px rgba(0, 0, 0, 0.1);
+}
+
+#pointsBar[value]::-webkit-progress-value {
+    background: linear-gradient(to bottom, #F0B100, #FFDF20 );
+    box-shadow: none;
+    border-color: transparent;
+    border-radius: 20px;
+}
+/* bottom section */
+.bottom-section {
+    display: flex;
+    flex-direction: column;
+    margin: 1.5rem 0 0 0;
+    gap: 20px;
+}
+#correct, #incorrect {    
+    width: 100%;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+}
+#correct {
+    /* display: none; */
+    border: 1px solid #00C950;
+    background-color:rgba(0, 201, 80,0.2) ;
+    color:#B9F8CF;
+}
+#incorrect {
+    /* display: none; */
+    border: 1px solid #FB2C36;
+    background-color:rgba(251, 44, 54, 0.2);
+    color:#FFC9C9;
+}
+.bottom-section button {
+    border-radius: 10px;
+    background-color: black;
+    border: none;
+    padding: 10px;
+    color: white;
+}
