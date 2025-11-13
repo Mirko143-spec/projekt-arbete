@@ -156,3 +156,5 @@ Ansvar: UI / Resultathantering
 ⦁	Responsiv anpassning / dark mode
 
 ⦁	Fetch quiz-data från API
+
+test
