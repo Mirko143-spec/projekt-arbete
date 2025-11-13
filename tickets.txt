@@ -157,4 +157,4 @@ Ansvar: UI / Resultathantering
 
 ⦁	Fetch quiz-data från API
 
-test3
+test4
