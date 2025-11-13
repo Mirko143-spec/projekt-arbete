@@ -19,13 +19,15 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    max-width: 1920px;
+    margin: 0 auto;
 }
 p {
     font-size: var(--p-size);
 }
 main {
     /* border: solid black 2px; */
-    width: 60vw;
+    width: 60%;
     color: white;    
     margin: 5vh 0 5vh 0;
 }
