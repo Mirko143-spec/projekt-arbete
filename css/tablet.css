@@ -1,0 +1,15 @@
+@media (min-width: 601px) and (max-width: 1200px) {
+    main {
+        width: 80vw;
+    }
+    p {
+        font-size: .9rem;
+        text-wrap: nowrap;
+    }
+    #pointsBar {
+        width: 28px;
+    }
+    .points-box span {
+        padding: 5px;
+    }
+}
