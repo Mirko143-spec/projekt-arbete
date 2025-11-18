@@ -55,12 +55,13 @@ async function initQuiz() {
 
 //Timer 
 
-//question box + question bar 
+//question box + question bar
 
-//quiz div 
+//quiz div
 
-//section box --> score bar 
+//section box --> score bar
 
 //hidden incorrect <--> correct answer
 
 //next question effect
+
