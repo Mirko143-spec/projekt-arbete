@@ -24,7 +24,7 @@ const incorrectText = document.getElementById('incorrectText');
 async function fetchQuestions() {
   try {
     const response = await fetch(
-      "https://opentdb.com/api.php?amount=10&type=multiple"
+      "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
     );
 
     if (!response.ok) {
@@ -64,4 +64,5 @@ async function initQuiz() {
 //hidden incorrect <--> correct answer
 
 //next question effect
+
 
