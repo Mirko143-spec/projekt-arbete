@@ -1,14 +1,25 @@
-//Timer
 
-//question box + question bar
+//Timer elementet
+const timerElement = document.getElementById('timer');
 
-//quiz div
+//Frågenummer (Question 1/10)
+const questionNmb = document.getElementById('questionNmb');
 
-//section box --> score bar
+//Horisontell progressbar
+const pBarHorizontal = document.getElementById('questionBar');
 
-//hidden incorrect <--> correct answer
+//Frågor och svar
+const questionElement = document.getElementById('question');
+const answersContainer = document.getElementById('answers');
 
-//next question effect
+// Vertikal progressbar (samt poängbaren brevid)
+const pBarVertical = document.getElementById('pointsBar');
+const pNmbVertical = document.getElementById('points');
+
+// Correct / Incorrect meddelande
+const correctContainer = document.getElementById('correct');
+const incorrectContainer = document.getElementById('incorrect');
+const incorrectText = document.getElementById('incorrectText');
 
 async function fetchQuestions() {
   try {
@@ -21,8 +32,36 @@ async function fetchQuestions() {
     }
 
     const data = await response.json();
-    return data;
+    return data.results;
   } catch (error) {
     console.error("Error fetching questions:", error);
   }
 }
+
+async function initQuiz() {
+    // Nollställer spel variabler
+    let timer = 0;
+    let points = 0;
+    let currQuestion = 1;
+
+    // Döljer correct och incorrect div
+    incorrectContainer.style.display = 'none';
+    correctContainer.style.display = 'none';
+
+    // Fetchar frågor/svar från API och Startar quizzen
+    let data = await fetchQuestions();
+    startQuiz(data);
+}
+
+//Timer 
+
+//question box + question bar
+
+//quiz div
+
+//section box --> score bar
+
+//hidden incorrect <--> correct answer
+
+//next question effect
+
