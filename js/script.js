@@ -9,3 +9,6 @@
 //hidden incorrect <--> correct answer
 
 //next question effect
+
+import { analytics } from "./analytics.js";
+analytics();
