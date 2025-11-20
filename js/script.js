@@ -21,6 +21,10 @@ const incorrectContainer = document.getElementById("incorrect");
 const incorrectText = document.getElementById("incorrectText");
 const nextBtn = document.getElementById("nextBtn");
 
+//Result modal
+const modal = document.getElementById("result");
+const modalScore = document.getElementById("result-score");
+
 let timer;
 let points;
 let currQuestion;
@@ -48,7 +52,7 @@ async function initQuiz() {
   // Nollställer spel variabler
   timer = 0;
   points = 0;
-  currQuestion = 0;
+  currQuestion = 1;
 
   // Fetchar frågor/svar från API och Startar quizzen
   let data = await fetchQuestions();
@@ -93,12 +97,11 @@ async function loadQuestion(data) {
 
 function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
+
     // Visa correct div
     correctContainer.style.display = "block";
-    points += 100;
-    pNmbVertical.innerText = points;
-    pBarHorizontal.value += 10;
-    pBarVertical.value += 10;
+    updateScore(100);
+   
   } else {
     // Visa incorrect div + rätt svar
     incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
@@ -124,9 +127,41 @@ answersContainer.addEventListener("click", function (e) {
   }
 });
 
+nextBtn.addEventListener("click", async () => {
+  
+  currQuestion++;
+  locked = false;
+  if (currQuestion == 11) {
+    modal.showModal()
+    modalScore.innerText = `Your final score is ${points} points!`;
+
+      
+  } else {
+    
+    const data = await fetchQuestions()
+    loadQuestion(data);
+    answersContainer.style.pointerEvents = "auto"
+    
+    questionNmb.innerText = `Question ${currQuestion}/10`;
+    
+  }
+
+  
+  
+});
+
 initQuiz();
 
+function updateScore(pointsToAdd) {
+  
+   points += pointsToAdd;
+    pNmbVertical.innerText = points;
+    pBarHorizontal.value += pointsToAdd /10;
+    pBarVertical.value += pointsToAdd /10;
+};
+
 //Timer
+
 
 //question box + question bar
 
@@ -137,3 +172,25 @@ initQuiz();
 //hidden incorrect <--> correct answer
 
 //next question effect
+
+
+
+
+
+
+
+// Beskrivning:
+// Koppla logik till knappen "Next Question →" så att nästa fråga laddas, och hantera när quizet är slut.
+
+// Uppgifter:
+
+// currentQuestionIndex++
+
+// Visa nästa fråga eller visa resultatskärm
+
+// Återställ UI (ta bort “Correct!” / “Incorrect!”)
+
+// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
+
+// Beroende: Ticket 3, 4, 5
+// Ansvar: Flöde / Navigering
