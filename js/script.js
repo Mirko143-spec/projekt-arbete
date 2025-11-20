@@ -152,7 +152,7 @@ answersContainer.addEventListener("click", function (e) {
 nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
-  if (currQuestion == 10) {
+  if (currQuestion == 11) {
     modal.showModal();
     modalScore.innerText = `Your final score is ${points} points!`;
   } else {
@@ -165,7 +165,7 @@ nextBtn.addEventListener("click", async (e) => {
     }
     questionNmb.innerText = `Question ${currQuestion}/10`;
   }
-  pBarHorizontal.value = (currQuestion - 1) * 10;
+  pBarHorizontal.value = currQuestion * 10;
 });
 
 initQuiz();
