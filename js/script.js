@@ -97,11 +97,9 @@ async function loadQuestion(data) {
 
 function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
-
     // Visa correct div
     correctContainer.style.display = "block";
     updateScore(100);
-   
   } else {
     // Visa incorrect div + rätt svar
     incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
@@ -114,7 +112,7 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-  if ((e.target && e.target.nodeName === "P", "SPAN", "LI")) {
+  if ((e.target && e.target.nodeName === "P") || "SPAN" || "LI") {
     let selectedAnswer;
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
@@ -123,45 +121,46 @@ answersContainer.addEventListener("click", function (e) {
     } else {
       selectedAnswer = e.target.children[0].children[1].innerText;
     }
+    if (selectedAnswer === currentCorrectAnswer) {
+      e.target.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+    } else {
+      e.target.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      for (const answer of answersContainer.children) {
+        if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
+          answer.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+        }
+      }
+    }
+
     checkAnswer(selectedAnswer, currentCorrectAnswer);
   }
 });
 
 nextBtn.addEventListener("click", async () => {
-  
   currQuestion++;
   locked = false;
   if (currQuestion == 11) {
-    modal.showModal()
+    modal.showModal();
     modalScore.innerText = `Your final score is ${points} points!`;
-
-      
   } else {
-    
-    const data = await fetchQuestions()
+    const data = await fetchQuestions();
     loadQuestion(data);
-    answersContainer.style.pointerEvents = "auto"
-    
-    questionNmb.innerText = `Question ${currQuestion}/10`;
-    
-  }
+    answersContainer.style.pointerEvents = "auto";
 
-  
-  
+    questionNmb.innerText = `Question ${currQuestion}/10`;
+  }
 });
 
 initQuiz();
 
 function updateScore(pointsToAdd) {
-  
-   points += pointsToAdd;
-    pNmbVertical.innerText = points;
-    pBarHorizontal.value += pointsToAdd /10;
-    pBarVertical.value += pointsToAdd /10;
-};
+  points += pointsToAdd;
+  pNmbVertical.innerText = points;
+  pBarHorizontal.value += pointsToAdd / 10;
+  pBarVertical.value += pointsToAdd / 10;
+}
 
 //Timer
-
 
 //question box + question bar
 
@@ -172,12 +171,6 @@ function updateScore(pointsToAdd) {
 //hidden incorrect <--> correct answer
 
 //next question effect
-
-
-
-
-
-
 
 // Beskrivning:
 // Koppla logik till knappen "Next Question →" så att nästa fråga laddas, och hantera när quizet är slut.
