@@ -87,7 +87,7 @@ async function loadQuestion(data) {
 
   // Laddar in hela arrayen till svar sektionen på sidan
   for (i = 0; i < answersContainer.children.length; i++) {
-    answersContainer.children[i].children[0].children[1].innerText = answers[i];
+    answersContainer.children[i].children[0].children[1].innerHTML = answers[i];
   }
   // Viktiga variabler som skapas här
   // data - för nuvarande JSON datan som används i quizen
@@ -112,52 +112,72 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-  if ((e.target && e.target.nodeName === "P") || "SPAN" || "LI") {
+  // Only run if the clicked element is an answer
+  if (
+    e.target &&
+    (e.target.nodeName === "P" ||
+      e.target.nodeName === "SPAN" ||
+      e.target.nodeName === "LI")
+  ) {
     let selectedAnswer;
+    let answerDiv; // The containing div to color
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
+      answerDiv = e.target.parentNode.parentNode;
     } else if (e.target.nodeName === "SPAN") {
       selectedAnswer = e.target.children[0].innerText;
+      answerDiv = e.target.parentNode.parentNode;
     } else {
       selectedAnswer = e.target.children[0].children[1].innerText;
+      answerDiv = e.target;
     }
+
+    // Check if answer is correct
     if (selectedAnswer === currentCorrectAnswer) {
-      e.target.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+      answerDiv.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
     } else {
-      e.target.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      // Color the wrong answer RED
+      answerDiv.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      // Also highlight the correct answer GREEN
       for (const answer of answersContainer.children) {
         if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
           answer.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
         }
       }
     }
-
     checkAnswer(selectedAnswer, currentCorrectAnswer);
   }
 });
 
-nextBtn.addEventListener("click", async () => {
+nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
-  if (currQuestion == 11) {
+  if (currQuestion == 10) {
     modal.showModal();
     modalScore.innerText = `Your final score is ${points} points!`;
   } else {
     const data = await fetchQuestions();
     loadQuestion(data);
     answersContainer.style.pointerEvents = "auto";
-
+    for (const answer of answersContainer.children) {
+      answer.style.backgroundColor = "transparent";
+      answer.children[0].children[1].style.backgroundColor = "transparent";
+    }
     questionNmb.innerText = `Question ${currQuestion}/10`;
   }
+  pBarHorizontal.value = (currQuestion - 1) * 10;
 });
 
 initQuiz();
 
 function updateScore(pointsToAdd) {
   points += pointsToAdd;
-  pNmbVertical.innerText = points;
+  pNmbVertical.innerText = `${points} pts`;
   pBarHorizontal.value += pointsToAdd / 10;
   pBarVertical.value += pointsToAdd / 10;
+  let pBarMargin = 398;
+  pBarMargin = pBarMargin - (points / 10) * 3.98;
+  pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
 
 //Timer
