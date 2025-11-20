@@ -95,10 +95,6 @@ function checkAnswer(selectedAnswer, correctAnswer) {
   if (selectedAnswer === correctAnswer) {
     // Visa correct div
     correctContainer.style.display = "block";
-    points += 100;
-    pNmbVertical.innerText = points;
-    pBarHorizontal.value += 10;
-    pBarVertical.value += 10;
   } else {
     // Visa incorrect div + rätt svar
     incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
@@ -111,7 +107,7 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-  if ((e.target && e.target.nodeName === "P", "SPAN", "LI")) {
+  if ((e.target && e.target.nodeName === "P") || "SPAN" || "LI") {
     let selectedAnswer;
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
@@ -120,6 +116,17 @@ answersContainer.addEventListener("click", function (e) {
     } else {
       selectedAnswer = e.target.children[0].children[1].innerText;
     }
+    if (selectedAnswer === currentCorrectAnswer) {
+      e.target.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+    } else {
+      e.target.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      for (const answer of answersContainer.children) {
+        if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
+          answer.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+        }
+      }
+    }
+
     checkAnswer(selectedAnswer, currentCorrectAnswer);
   }
 });
