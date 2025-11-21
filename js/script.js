@@ -28,6 +28,7 @@ const modalScore = document.getElementById("result-score");
 let timer;
 let points;
 let currQuestion;
+let data = [];
 let locked = false;
 let currentCorrectAnswer = null;
 
@@ -41,7 +42,7 @@ async function fetchQuestions() {
       throw new Error("Network response was not ok");
     }
 
-    const data = await response.json();
+    data = await response.json();
     return data.results;
   } catch (error) {
     console.error("Error fetching questions:", error);
@@ -55,17 +56,17 @@ async function initQuiz() {
   currQuestion = 1;
 
   // Fetchar frågor/svar från API och Startar quizzen
-  let data = await fetchQuestions();
-  loadQuestion(data);
+  data = await fetchQuestions();
+  loadQuestion();
 }
 
-async function loadQuestion(data) {
+async function loadQuestion() {
   // Döljer correct och incorrect div
   incorrectContainer.style.display = "none";
   correctContainer.style.display = "none";
 
   // Slumpar fram ett nummer mellan 1 - 10
-  let randomInt = Math.floor(Math.random() * 10);
+  let randomInt = Math.floor(Math.random() * data.length);
 
   // Väljer fråga utifrån det slumpade numret
   let question = data[randomInt].question;
@@ -80,6 +81,9 @@ async function loadQuestion(data) {
   for (item of data[randomInt].incorrect_answers) {
     answers.push(item);
   }
+  
+  // Tar bort den använda frågan från datan så den inte kan användas igen
+  data.splice(randomInt, 1) 
 
   // Slumpar fram en position i arrayen och lägger till rätt svar på den slumpade positionen.
   let randomPos = Math.floor(Math.random() * (answers.length + 1));
@@ -89,10 +93,6 @@ async function loadQuestion(data) {
   for (i = 0; i < answersContainer.children.length; i++) {
     answersContainer.children[i].children[0].children[1].innerHTML = answers[i];
   }
-  // Viktiga variabler som skapas här
-  // data - för nuvarande JSON datan som används i quizen
-  // question - för nuvarande frågan i quizen
-  // correctAnswer - för korrekt svar till nuvarande frågan i quizen
 }
 
 function checkAnswer(selectedAnswer, correctAnswer) {
@@ -112,7 +112,7 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-  // Only run if the clicked element is an answer
+
   if (
     e.target &&
     (e.target.nodeName === "P" ||
@@ -120,7 +120,7 @@ answersContainer.addEventListener("click", function (e) {
       e.target.nodeName === "LI")
   ) {
     let selectedAnswer;
-    let answerDiv; // The containing div to color
+    let answerDiv; 
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
       answerDiv = e.target.parentNode.parentNode;
@@ -132,13 +132,13 @@ answersContainer.addEventListener("click", function (e) {
       answerDiv = e.target;
     }
 
-    // Check if answer is correct
+    // Kollar om svaret är rätt isåfall färgas det GRÖNT
     if (selectedAnswer === currentCorrectAnswer) {
       answerDiv.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
     } else {
-      // Color the wrong answer RED
+      // Färgar det valda svaret RÖTT
       answerDiv.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
-      // Also highlight the correct answer GREEN
+      // Färgar det RÄTTA svaret GRÖNT
       for (const answer of answersContainer.children) {
         if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
           answer.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
@@ -152,12 +152,12 @@ answersContainer.addEventListener("click", function (e) {
 nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
+  // Tar bort den använda frågan från datan så den inte kan användas igen
   if (currQuestion == 11) {
     modal.showModal();
-    modalScore.innerText = `Your final score is ${points} points!`;
+    modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
   } else {
-    const data = await fetchQuestions();
-    loadQuestion(data);
+    loadQuestion();
     answersContainer.style.pointerEvents = "auto";
     for (const answer of answersContainer.children) {
       answer.style.backgroundColor = "transparent";
@@ -181,19 +181,6 @@ function updateScore(pointsToAdd) {
 }
 
 //Timer
-
-//question box + question bar
-
-//quiz div
-
-//section box --> score bar
-
-//hidden incorrect <--> correct answer
-
-//next question effect
-
-// Beskrivning:
-// Koppla logik till knappen "Next Question →" så att nästa fråga laddas, och hantera när quizet är slut.
 
 // Uppgifter:
 
