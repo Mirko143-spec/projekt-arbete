@@ -39,10 +39,27 @@ const difficulties = document.getElementById("trivia_difficulty");
 const dialog = document.getElementById("startDialog");
 const startButton = document.getElementById("startButton");
 
+const termsdialog = document.getElementById("termsConditions");
+const condYes = document.getElementById("condYes");
+const condNo = document.getElementById("condNo");
+
+
+function handleclick(e){
+  if (e.target.id === "condYes"){
+    termsdialog.close();
+    dialog.showModal();
+    //insert function where the gtag will be
+
+  }else if (e.target.id === "condNo"){
+    termsdialog.close();
+    dialog.showModal();
+  }
+}
+condYes.addEventListener("click", handleclick);
+condNo.addEventListener("click", handleclick);
+
 
 startButton.addEventListener("click", async () => {
-  dialog.close();
-
   // Info som sparas
   const playerName = playerNameInput.value.trim();
   const category = categorySelect.value;
@@ -102,6 +119,7 @@ async function initQuiz() {
   // Fetchar frågor/svar från API och Startar quizzen
   loadQuestion();
 }
+
 
 async function loadQuestion() {
   // Döljer correct och incorrect div
