@@ -32,11 +32,52 @@ let data = [];
 let locked = false;
 let currentCorrectAnswer = null;
 
-async function fetchQuestions() {
+//values that will be input and stored in the first modal
+const playerNameInput = document.getElementById("playerName");
+const categorySelect = document.getElementById("trivia_category");
+const difficulties = document.getElementById("trivia_difficulty");
+const dialog = document.getElementById("startDialog");
+const startButton = document.getElementById("startButton");
+
+
+startButton.addEventListener("click", async () => {
+  dialog.close();
+
+  // Info som sparas
+  const playerName = playerNameInput.value.trim();
+  const category = categorySelect.value;
+  const difficulty = difficulties.value;
+
+  sessionStorage.setItem("PlayerName", playerName);
+  sessionStorage.setItem("category", category);
+  sessionStorage.setItem("difficulty", difficulty);
+
+  // Bygg URL
+  let url = `https://opentdb.com/api.php?amount=10`;
+  if (category)   url += `&category=${category}`;
+  if (difficulty) url += `&difficulty=${difficulty}`;
+
+  console.log("Fetching questions from:", url);
+
+  // HÄMTA frågorna 
+  data = await fetchQuestions(url);
+  console.log("Questions:", data);
+
+  if (!data || data.length === 0) {
+    alert("Kunde inte hämta frågor, testa andra inställningar.");
+    return;
+  }
+
+  // Starta quiz nu när data är fylld
+  initQuiz();
+});
+
+
+
+
+async function fetchQuestions(url) {
   try {
-    const response = await fetch(
-      "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
-    );
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -49,6 +90,9 @@ async function fetchQuestions() {
   }
 }
 
+
+
+
 async function initQuiz() {
   // Nollställer spel variabler
   timer = 0;
@@ -56,7 +100,6 @@ async function initQuiz() {
   currQuestion = 1;
 
   // Fetchar frågor/svar från API och Startar quizzen
-  data = await fetchQuestions();
   loadQuestion();
 }
 
@@ -168,7 +211,7 @@ nextBtn.addEventListener("click", async (e) => {
   pBarHorizontal.value = currQuestion * 10;
 });
 
-initQuiz();
+
 
 function updateScore(pointsToAdd) {
   points += pointsToAdd;
