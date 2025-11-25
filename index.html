@@ -8,26 +8,82 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/mobile.css">
     <link rel="stylesheet" href="./css/tablet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="./js/script.js" defer></script>
 </head>
 
 <body>
+    <dialog id="termsConditions">
+        <p>im ok with having my data stolen</p>
+        <button id="condYes">Yes</button>
+        <button id="condNo">No :( </button>
+    </dialog>
+    <dialog id="startDialog">
+        <p>Player Name</p>
+        <input id="playerName" type="text" placeholder="Player Name">
+        <p>Start quiz</p>
+
+        <select id="trivia_category" name="trivia_category" class="form-controlcat">
+
+            <option value="any">Choose Category</option>
+
+            <option value="9">General Knowledge</option>
+
+            <option value="11">Entertainment: Film</option>
+
+            <option value="12">Entertainment: Music</option>
+
+            <option value="15">Entertainment: Video Games</option>
+
+            <option value="18">Science: Computers</option>
+
+            <option value="20">Mythology</option>
+
+            <option value="21">Sports</option>
+
+            <option value="22">Geography</option>
+
+            <option value="23">History</option>
+
+            <option value="24">Politics</option>
+
+            <option value="27">Animals</option>
+
+            <option value="28">Vehicles</option>
+
+            <option value="29">Entertainment: Comics</option>
+
+            <option value="30">Science: Gadgets</option>
+
+            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+
+        </select>
+        <select id="trivia_difficulty" name="trivia_difficulty" class="form-controldiff">
+            <option value="any">Choose Difficulty</option>
+            <option value="easy">Easy</option>
+            <option value="medium">Medium</option>
+            <option value="hard">Hard</option>
+        </select>
+        <form method="dialog">
+            <button id="startButton">Start Quiz!</button>
+        </form>
+    </dialog>
     <main>
         <section class="top-section">
             <div class="top-section-box">
                 <span class="top-section-info">
                     <img src="./img/icon.svg" alt="film icon">
-                    <h1>Movie Quiz</h1><img src="./img/icon.svg" alt="film icon">
+                    <h1>Quiz App</h1><img src="./img/icon.svg" alt="film icon">
                 </span>
-                <p>Test your cinema knowledge!</p>
+                <p>Test your knowledge!</p>
                 <span class="top-section-timer">
-                    <img src="./img/clock blue.svg">
+                    <img id="clock" src="./img/clock-blue.svg" alt="blue clock">
                     <p id="timer">0s</p>
                 </span>
             </div>
             <div class="top-section-question">
                 <span>
-                    <img src="./img/star.svg" alt="">
+                    <img src="./img/star.svg" alt="star">
                     <p id="questionNmb">Question 1/10</p>
                 </span>
             </div>
@@ -97,6 +153,7 @@
                 <li>Spelet är slut!</li>
                 <li id="result-score">Total score: X</li>
             </ul>
+            <button><a href="">Restart</a></button>
         </div>
     </dialog>
 </body>

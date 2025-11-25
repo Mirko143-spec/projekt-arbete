@@ -1,5 +1,5 @@
 //Timer elementet
-const timerElement = document.getElementById("timer");
+//const timerElement = document.getElementById("timer");
 
 //Frågenummer (Question 1/10)
 const questionNmb = document.getElementById("questionNmb");
@@ -26,17 +26,122 @@ const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
 let timer;
-let points;
+let points = 0;
 let currQuestion;
 let data = [];
 let locked = false;
 let currentCorrectAnswer = null;
 
-async function fetchQuestions() {
+//values that will be input and stored in the first modal
+const playerNameInput = document.getElementById("playerName");
+const categorySelect = document.getElementById("trivia_category");
+const difficulties = document.getElementById("trivia_difficulty");
+const dialog = document.getElementById("startDialog");
+const startButton = document.getElementById("startButton");
+
+const termsdialog = document.getElementById("termsConditions");
+const condYes = document.getElementById("condYes");
+const condNo = document.getElementById("condNo");
+
+function handleclick(e) {
+  if (e.target.id === "condYes") {
+    termsdialog.close();
+    dialog.showModal();
+    dialog.style.display = "flex";
+    //insert function where the gtag will be
+  } else if (e.target.id === "condNo") {
+    termsdialog.close();
+    dialog.showModal();
+    dialog.style.display = "flex";
+  }
+}
+
+condYes.addEventListener("click", handleclick);
+condNo.addEventListener("click", handleclick);
+window.addEventListener("load", () => termsdialog.showModal());
+
+startButton.addEventListener("click", async () => {
+  // Info som sparas
+  const playerName = playerNameInput.value.trim();
+  const category = categorySelect.value;
+  const difficulty = difficulties.value;
+
+  sessionStorage.setItem("PlayerName", playerName);
+  sessionStorage.setItem("category", category);
+  sessionStorage.setItem("difficulty", difficulty);
+
+  // Bygg URL
+  let url = `https://opentdb.com/api.php?amount=10`;
+  if (category) url += `&category=${category}`;
+  if (difficulty) url += `&difficulty=${difficulty}&type=multiple`;
+
+  console.log("Fetching questions from:", url);
+
+  // HÄMTA frågorna
+  data = await fetchQuestions(url);
+  console.log("Questions:", data);
+
+  if (!data || data.length === 0) {
+    alert("Kunde inte hämta frågor, testa andra inställningar.");
+    return;
+  }
+
+  dialog.style.display = "none";
+
+  // Starta quiz nu när data är fylld
+  initQuiz();
+});
+
+//Timer
+
+// Uppgifter:
+
+// currentQuestionIndex++
+
+// Visa nästa fråga eller visa resultatskärm
+
+// Återställ UI (ta bort “Correct!” / “Incorrect!”)
+
+// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
+
+// Beroende: Ticket 3, 4, 5
+// Ansvar: Flöde / Navigering
+let timeLeft = 15;
+let timerInterval;
+const timerElement = document.getElementById("timer");
+const clock = document.getElementById("clock");
+
+function startTimer() {
+  clearInterval(timerInterval);
+  timeLeft = 15;
+  timerElement.textContent = timeLeft;
+
+  timerInterval = setInterval(() => {
+    timeLeft--;
+    timerElement.textContent = timeLeft;
+
+    if (timeLeft <= 0) {
+      clearInterval(timerInterval);
+      handleTimeout();
+    }
+
+    if (timeLeft < 6) {
+      clock.src = "./img/clock-red.svg";
+      clock.classList.add("animate__animated", "animate__flip");
+    }
+  }, 1000);
+}
+
+function handleTimeout() {
+  locked = true;
+  incorrectText.innerHTML = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
+  incorrectContainer.style.display = "block";
+  answersContainer.style.pointerEvents = "none";
+}
+
+async function fetchQuestions(url) {
   try {
-    const response = await fetch(
-      "https://opentdb.com/api.php?amount=10&category=11&difficulty=easy&type=multiple"
-    );
+    const response = await fetch(url);
 
     if (!response.ok) {
       throw new Error("Network response was not ok");
@@ -56,7 +161,6 @@ async function initQuiz() {
   currQuestion = 1;
 
   // Fetchar frågor/svar från API och Startar quizzen
-  data = await fetchQuestions();
   loadQuestion();
 }
 
@@ -81,9 +185,9 @@ async function loadQuestion() {
   for (item of data[randomInt].incorrect_answers) {
     answers.push(item);
   }
-  
+
   // Tar bort den använda frågan från datan så den inte kan användas igen
-  data.splice(randomInt, 1) 
+  data.splice(randomInt, 1);
 
   // Slumpar fram en position i arrayen och lägger till rätt svar på den slumpade positionen.
   let randomPos = Math.floor(Math.random() * (answers.length + 1));
@@ -93,6 +197,7 @@ async function loadQuestion() {
   for (i = 0; i < answersContainer.children.length; i++) {
     answersContainer.children[i].children[0].children[1].innerHTML = answers[i];
   }
+  startTimer();
 }
 
 function checkAnswer(selectedAnswer, correctAnswer) {
@@ -112,7 +217,6 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-
   if (
     e.target &&
     (e.target.nodeName === "P" ||
@@ -120,7 +224,7 @@ answersContainer.addEventListener("click", function (e) {
       e.target.nodeName === "LI")
   ) {
     let selectedAnswer;
-    let answerDiv; 
+    let answerDiv;
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
       answerDiv = e.target.parentNode.parentNode;
@@ -135,9 +239,11 @@ answersContainer.addEventListener("click", function (e) {
     // Kollar om svaret är rätt isåfall färgas det GRÖNT
     if (selectedAnswer === currentCorrectAnswer) {
       answerDiv.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+      clearInterval(timerInterval);
     } else {
       // Färgar det valda svaret RÖTT
       answerDiv.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      clearInterval(timerInterval);
       // Färgar det RÄTTA svaret GRÖNT
       for (const answer of answersContainer.children) {
         if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
@@ -168,8 +274,6 @@ nextBtn.addEventListener("click", async (e) => {
   pBarHorizontal.value = currQuestion * 10;
 });
 
-initQuiz();
-
 function updateScore(pointsToAdd) {
   points += pointsToAdd;
   pNmbVertical.innerText = `${points} pts`;
@@ -179,18 +283,3 @@ function updateScore(pointsToAdd) {
   pBarMargin = pBarMargin - (points / 10) * 3.98;
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
-
-//Timer
-
-// Uppgifter:
-
-// currentQuestionIndex++
-
-// Visa nästa fråga eller visa resultatskärm
-
-// Återställ UI (ta bort “Correct!” / “Incorrect!”)
-
-// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
-
-// Beroende: Ticket 3, 4, 5
-// Ansvar: Flöde / Navigering
