@@ -73,7 +73,7 @@ startButton.addEventListener("click", async () => {
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
   if (category)   url += `&category=${category}`;
-  if (difficulty) url += `&difficulty=${difficulty}`;
+  if (difficulty) url += `&difficulty=${difficulty}&type=multiple`;
 
   console.log("Fetching questions from:", url);
 
@@ -128,7 +128,7 @@ function startTimer(){
 
 function handleTimeout(){
   locked = true;
-  incorrectText.innerText = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
+  incorrectText.innerHTML = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
   incorrectContainer.style.display = "block";
   answersContainer.style.pointerEvents = "none";
 }
@@ -284,4 +284,5 @@ function updateScore(pointsToAdd) {
   pBarMargin = pBarMargin - (points / 10) * 3.98;
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
+
 
