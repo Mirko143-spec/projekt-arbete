@@ -1,5 +1,5 @@
 //Timer elementet
-const timerElement = document.getElementById("timer");
+//const timerElement = document.getElementById("timer");
 
 //Frågenummer (Question 1/10)
 const questionNmb = document.getElementById("questionNmb");
@@ -55,6 +55,7 @@ function handleclick(e){
     dialog.showModal();
   }
 }
+
 condYes.addEventListener("click", handleclick);
 condNo.addEventListener("click", handleclick);
 
@@ -89,6 +90,48 @@ startButton.addEventListener("click", async () => {
   initQuiz();
 });
 
+//Timer
+
+// Uppgifter:
+
+// currentQuestionIndex++
+
+// Visa nästa fråga eller visa resultatskärm
+
+// Återställ UI (ta bort “Correct!” / “Incorrect!”)
+
+// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
+
+// Beroende: Ticket 3, 4, 5
+// Ansvar: Flöde / Navigering
+let timeLeft = 15;
+let timerInterval;
+const timerElement = document.getElementById("timer");
+
+
+function startTimer(){
+  clearInterval(timerInterval);
+  timeLeft=15;
+  timerElement.textContent = timeLeft;
+
+  timerInterval = setInterval(()=>{
+
+    timeLeft--;
+    timerElement.textContent = timeLeft;
+
+    if(timeLeft <= 0){
+      clearInterval(timerInterval);
+      handleTimeout();
+    }
+  }, 1000);
+}
+
+function handleTimeout(){
+  locked = true;
+  incorrectText.innerText = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
+  incorrectContainer.style.display = "block";
+  answersContainer.style.pointerEvents = "none";
+}
 
 
 
@@ -154,6 +197,7 @@ async function loadQuestion() {
   for (i = 0; i < answersContainer.children.length; i++) {
     answersContainer.children[i].children[0].children[1].innerHTML = answers[i];
   }
+  startTimer();
 }
 
 function checkAnswer(selectedAnswer, correctAnswer) {
@@ -241,17 +285,3 @@ function updateScore(pointsToAdd) {
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
 
-//Timer
-
-// Uppgifter:
-
-// currentQuestionIndex++
-
-// Visa nästa fråga eller visa resultatskärm
-
-// Återställ UI (ta bort “Correct!” / “Incorrect!”)
-
-// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
-
-// Beroende: Ticket 3, 4, 5
-// Ansvar: Flöde / Navigering
