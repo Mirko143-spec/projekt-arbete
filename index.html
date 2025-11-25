@@ -8,23 +8,24 @@
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/mobile.css">
     <link rel="stylesheet" href="./css/tablet.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
     <script src="./js/script.js" defer></script>
 </head>
 
 <body>
-    <dialog open id="termsConditions">
+    <dialog id="termsConditions">
         <p>im ok with having my data stolen</p>
         <button id="condYes">Yes</button>
         <button id="condNo">No :( </button>
     </dialog>
-    <dialog  id="startDialog">
+    <dialog id="startDialog">
         <p>Player Name</p>
-        <input id="playerName" type="text" placeholder="Player Name"> 
+        <input id="playerName" type="text" placeholder="Player Name">
         <p>Start quiz</p>
 
         <select id="trivia_category" name="trivia_category" class="form-controlcat">
 
-            <option value="any">Any Category</option>
+            <option value="any">Choose Category</option>
 
             <option value="9">General Knowledge</option>
 
@@ -58,13 +59,13 @@
 
         </select>
         <select id="trivia_difficulty" name="trivia_difficulty" class="form-controldiff">
-            <option value="any">Any Difficulty</option>
+            <option value="any">Choose Difficulty</option>
             <option value="easy">Easy</option>
             <option value="medium">Medium</option>
             <option value="hard">Hard</option>
         </select>
         <form method="dialog">
-        <button id="startButton">Start Quiz!</button>
+            <button id="startButton">Start Quiz!</button>
         </form>
     </dialog>
     <main>
@@ -72,17 +73,17 @@
             <div class="top-section-box">
                 <span class="top-section-info">
                     <img src="./img/icon.svg" alt="film icon">
-                    <h1>Movie Quiz</h1><img src="./img/icon.svg" alt="film icon">
+                    <h1>Quiz App</h1><img src="./img/icon.svg" alt="film icon">
                 </span>
-                <p>Test your cinema knowledge!</p>
+                <p>Test your knowledge!</p>
                 <span class="top-section-timer">
-                    <img src="./img/clock blue.svg">
+                    <img id="clock" src="./img/clock-blue.svg" alt="blue clock">
                     <p id="timer">0s</p>
                 </span>
             </div>
             <div class="top-section-question">
                 <span>
-                    <img src="./img/star.svg" alt="">
+                    <img src="./img/star.svg" alt="star">
                     <p id="questionNmb">Question 1/10</p>
                 </span>
             </div>
@@ -152,6 +153,7 @@
                 <li>Spelet är slut!</li>
                 <li id="result-score">Total score: X</li>
             </ul>
+            <button><a href="">Restart</a></button>
         </div>
     </dialog>
 </body>

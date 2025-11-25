@@ -26,7 +26,7 @@ const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
 let timer;
-let points;
+let points = 0;
 let currQuestion;
 let data = [];
 let locked = false;
@@ -43,22 +43,22 @@ const termsdialog = document.getElementById("termsConditions");
 const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
 
-
-function handleclick(e){
-  if (e.target.id === "condYes"){
+function handleclick(e) {
+  if (e.target.id === "condYes") {
     termsdialog.close();
     dialog.showModal();
+    dialog.style.display = "flex";
     //insert function where the gtag will be
-
-  }else if (e.target.id === "condNo"){
+  } else if (e.target.id === "condNo") {
     termsdialog.close();
     dialog.showModal();
+    dialog.style.display = "flex";
   }
 }
 
 condYes.addEventListener("click", handleclick);
 condNo.addEventListener("click", handleclick);
-
+window.addEventListener("load", () => termsdialog.showModal());
 
 startButton.addEventListener("click", async () => {
   // Info som sparas
@@ -72,12 +72,12 @@ startButton.addEventListener("click", async () => {
 
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
-  if (category)   url += `&category=${category}`;
+  if (category) url += `&category=${category}`;
   if (difficulty) url += `&difficulty=${difficulty}&type=multiple`;
 
   console.log("Fetching questions from:", url);
 
-  // HÄMTA frågorna 
+  // HÄMTA frågorna
   data = await fetchQuestions(url);
   console.log("Questions:", data);
 
@@ -85,6 +85,8 @@ startButton.addEventListener("click", async () => {
     alert("Kunde inte hämta frågor, testa andra inställningar.");
     return;
   }
+
+  dialog.style.display = "none";
 
   // Starta quiz nu när data är fylld
   initQuiz();
@@ -107,33 +109,35 @@ startButton.addEventListener("click", async () => {
 let timeLeft = 15;
 let timerInterval;
 const timerElement = document.getElementById("timer");
+const clock = document.getElementById("clock");
 
-
-function startTimer(){
+function startTimer() {
   clearInterval(timerInterval);
-  timeLeft=15;
+  timeLeft = 15;
   timerElement.textContent = timeLeft;
 
-  timerInterval = setInterval(()=>{
-
+  timerInterval = setInterval(() => {
     timeLeft--;
     timerElement.textContent = timeLeft;
 
-    if(timeLeft <= 0){
+    if (timeLeft <= 0) {
       clearInterval(timerInterval);
       handleTimeout();
+    }
+
+    if (timeLeft < 6) {
+      clock.src = "./img/clock-red.svg";
+      clock.classList.add("animate__animated", "animate__flip");
     }
   }, 1000);
 }
 
-function handleTimeout(){
+function handleTimeout() {
   locked = true;
   incorrectText.innerHTML = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
   incorrectContainer.style.display = "block";
   answersContainer.style.pointerEvents = "none";
 }
-
-
 
 async function fetchQuestions(url) {
   try {
@@ -150,9 +154,6 @@ async function fetchQuestions(url) {
   }
 }
 
-
-
-
 async function initQuiz() {
   // Nollställer spel variabler
   timer = 0;
@@ -162,7 +163,6 @@ async function initQuiz() {
   // Fetchar frågor/svar från API och Startar quizzen
   loadQuestion();
 }
-
 
 async function loadQuestion() {
   // Döljer correct och incorrect div
@@ -185,9 +185,9 @@ async function loadQuestion() {
   for (item of data[randomInt].incorrect_answers) {
     answers.push(item);
   }
-  
+
   // Tar bort den använda frågan från datan så den inte kan användas igen
-  data.splice(randomInt, 1) 
+  data.splice(randomInt, 1);
 
   // Slumpar fram en position i arrayen och lägger till rätt svar på den slumpade positionen.
   let randomPos = Math.floor(Math.random() * (answers.length + 1));
@@ -207,7 +207,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
     updateScore(100);
   } else {
     // Visa incorrect div + rätt svar
-    incorrectText.innerHTML = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
+    incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
     incorrectContainer.style.display = "block";
   }
 }
@@ -217,7 +217,6 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-
   if (
     e.target &&
     (e.target.nodeName === "P" ||
@@ -225,7 +224,7 @@ answersContainer.addEventListener("click", function (e) {
       e.target.nodeName === "LI")
   ) {
     let selectedAnswer;
-    let answerDiv; 
+    let answerDiv;
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
       answerDiv = e.target.parentNode.parentNode;
@@ -240,9 +239,11 @@ answersContainer.addEventListener("click", function (e) {
     // Kollar om svaret är rätt isåfall färgas det GRÖNT
     if (selectedAnswer === currentCorrectAnswer) {
       answerDiv.style.backgroundColor = "rgba(0, 201, 80, 0.5)";
+      clearInterval(timerInterval);
     } else {
       // Färgar det valda svaret RÖTT
       answerDiv.style.backgroundColor = "rgba(255, 0, 0, 0.5)";
+      clearInterval(timerInterval);
       // Färgar det RÄTTA svaret GRÖNT
       for (const answer of answersContainer.children) {
         if (answer.children[0].children[1].innerText === currentCorrectAnswer) {
@@ -273,8 +274,6 @@ nextBtn.addEventListener("click", async (e) => {
   pBarHorizontal.value = currQuestion * 10;
 });
 
-
-
 function updateScore(pointsToAdd) {
   points += pointsToAdd;
   pNmbVertical.innerText = `${points} pts`;
@@ -284,6 +283,3 @@ function updateScore(pointsToAdd) {
   pBarMargin = pBarMargin - (points / 10) * 3.98;
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
-
-
-
