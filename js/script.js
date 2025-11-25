@@ -207,7 +207,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
     updateScore(100);
   } else {
     // Visa incorrect div + rätt svar
-    incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
+    incorrectText.innerHTML = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
     incorrectContainer.style.display = "block";
   }
 }
@@ -284,5 +284,6 @@ function updateScore(pointsToAdd) {
   pBarMargin = pBarMargin - (points / 10) * 3.98;
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
+
 
 
