@@ -25,14 +25,7 @@ const nextBtn = document.getElementById("nextBtn");
 const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
-let timer;
-let points = 0;
-let currQuestion;
-let data = [];
-let locked = false;
-let currentCorrectAnswer = null;
-
-//values that will be input and stored in the first modal
+// Variabler som skapas och sparas från första modalen
 const playerNameInput = document.getElementById("playerName");
 const categorySelect = document.getElementById("trivia_category");
 const difficulties = document.getElementById("trivia_difficulty");
@@ -42,6 +35,20 @@ const startButton = document.getElementById("startButton");
 const termsdialog = document.getElementById("termsConditions");
 const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
+
+// Globala variabler
+let timer;
+let points = 0;
+let currQuestion;
+let data = [];
+let locked = false;
+let currentCorrectAnswer = null;
+
+// Timer variabler
+let timeLeft = 15;
+let timerInterval;
+const timerElement = document.getElementById("timer");
+const clock = document.getElementById("clock");
 
 function handleclick(e) {
   if (e.target.id === "condYes") {
@@ -91,25 +98,6 @@ startButton.addEventListener("click", async () => {
   // Starta quiz nu när data är fylld
   initQuiz();
 });
-
-//Timer
-
-// Uppgifter:
-
-// currentQuestionIndex++
-
-// Visa nästa fråga eller visa resultatskärm
-
-// Återställ UI (ta bort “Correct!” / “Incorrect!”)
-
-// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
-
-// Beroende: Ticket 3, 4, 5
-// Ansvar: Flöde / Navigering
-let timeLeft = 15;
-let timerInterval;
-const timerElement = document.getElementById("timer");
-const clock = document.getElementById("clock");
 
 function startTimer() {
   clearInterval(timerInterval);
@@ -207,7 +195,7 @@ function checkAnswer(selectedAnswer, correctAnswer) {
     updateScore(100);
   } else {
     // Visa incorrect div + rätt svar
-    incorrectText.innerText = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
+    incorrectText.innerHTML = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
     incorrectContainer.style.display = "block";
   }
 }
@@ -283,3 +271,4 @@ function updateScore(pointsToAdd) {
   pBarMargin = pBarMargin - (points / 10) * 3.98;
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
+
