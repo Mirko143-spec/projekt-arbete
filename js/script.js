@@ -122,6 +122,11 @@ function inputSession() {
   // 5. Save the array back to sessionStorage
   localStorage.setItem("sessions", JSON.stringify(existingSessions));
 
+  console.log("inputSession called");
+  console.log("userconsent =", userconsent);
+  console.log("typeof window.gtag =", typeof window.gtag);
+
+  
     if (userconsent && typeof window.gtag === "function") {
       gtag("event", "quiz_complete", {
       player_name: sessionData.name,
