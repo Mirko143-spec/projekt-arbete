@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description"
+        content="Testa dina kunskaper med våra roliga och utmanande quiz! Spela gratis, jämför resultat med vänner och upptäck nya frågor varje dag." />
     <title>Quiz App</title>
     <link rel="stylesheet" href="./css/style.css">
     <link rel="stylesheet" href="./css/mobile.css">
@@ -12,13 +14,13 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){ dataLayer.push(arguments); }
+        function gtag() { dataLayer.push(arguments); }
 
         gtag('js', new Date());
         gtag('config', 'G-XXXXXXX'); // your GA4 Measurement ID
     </script>
     <script src="./js/script.js" defer></script>
-    
+
 
 </head>
 
@@ -173,13 +175,13 @@
     <dialog id="leaderboard">
         <span>
             <h1>Leaderboard🥇</h1>
-                <p>Choose Difficulty</p>
-                <select name="choosediff" id="selectdiff">
-                    <option value="All">All</option>
-                </select>
-        <ul id="scoreboard">
-        </ul>
-        <button onclick="restartQuiz()">Close</button>
+            <p>Choose Difficulty</p>
+            <select name="choosediff" id="selectdiff">
+                <option value="All">All</option>
+            </select>
+            <ul id="scoreboard">
+            </ul>
+            <button onclick="restartQuiz()">Close</button>
         </span>
     </dialog>
 </body>
