@@ -16,3 +16,6 @@
 > Sedan får du skriva in ditt användarnamn och välja kategori samt svårighet. Efter det får du starta spelet eller så kan du välja att kolla på
 > leaderboard:en. När du kommer in i spelet så får du frågan samt 4 alternativ att välja mellan, du har 15 sekunder på dig att välja rätt svar
 > eller så får du fel svar. Det är totalt 10 frågor och efter du har gått igenom alla så ser du ditt resultat, du får även välja om du vill börja om eller kolla på leaderborad:en.
+
+### Länk till hemsidan:
+[https://quiz-bizz.netlify.app/]
