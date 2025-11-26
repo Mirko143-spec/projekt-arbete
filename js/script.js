@@ -25,6 +25,23 @@ const nextBtn = document.getElementById("nextBtn");
 const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
+const restartBtn = document.getElementById("restartBtn");
+const exitBtn = document.getElementById("exitBtn");
+
+// Restart the quiz: simplest is to reload the page
+restartBtn.addEventListener("click", () => {
+  // Close modal and reload whole quiz
+  modal.close();
+  window.location.reload();
+});
+
+// Exit to home page
+exitBtn.addEventListener("click", () => {
+  modal.close();
+  window.location.href = "index.html";
+});
+
+
 // Variabler som skapas och sparas från första modalen
 const playerNameInput = document.getElementById("playerName");
 const categorySelect = document.getElementById("trivia_category");
@@ -43,6 +60,11 @@ let currQuestion;
 let data = [];
 let locked = false;
 let currentCorrectAnswer = null;
+
+let savedPlayerName = "";
+let savedCategory = "";
+let savedDifficulty = "";
+
 
 // Timer variabler
 let timeLeft = 15;
@@ -72,6 +94,11 @@ startButton.addEventListener("click", async () => {
   const playerName = playerNameInput.value.trim();
   const category = categorySelect.value;
   const difficulty = difficulties.value;
+
+  savedPlayerName = playerName;
+  savedCategory = category;
+  savedDifficulty = difficulty;
+
 
   sessionStorage.setItem("PlayerName", playerName);
   sessionStorage.setItem("category", category);
@@ -243,11 +270,38 @@ answersContainer.addEventListener("click", function (e) {
   }
 });
 
+function saveResultToLocalStorage() {
+  if (!savedPlayerName) return;
+
+  const existing = JSON.parse(localStorage.getItem("quizResults") || "[]");
+
+  const newResult = {
+    name: savedPlayerName,
+    category: savedCategory,
+    difficulty: savedDifficulty,
+    score: points,
+    date: new Date().toISOString(),
+  };
+
+  // Put the newest at the top
+  existing.unshift(newResult);
+
+  // Keep only the latest 10 results
+  const trimmed = existing.slice(0, 10);
+
+  localStorage.setItem("quizResults", JSON.stringify(trimmed));
+}
+
+
 nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
   // Tar bort den använda frågan från datan så den inte kan användas igen
   if (currQuestion == 11) {
+
+    // Spara resultatet i localStorage
+    saveResultToLocalStorage();
+
     modal.showModal();
     modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
   } else {

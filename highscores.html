@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz – High Scores</title>
+  <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/mobile.css" />
+  <link rel="stylesheet" href="./css/tablet.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <script src="./js/highscores.js" defer></script>
+</head>
+
+<body>
+  <header class="site-header">
+    <nav class="nav">
+      <a href="index.html" class="nav-logo">Quiz</a>
+      <ul class="nav-links">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="quiz.html">Play Quiz</a></li>
+        <li><a href="highscores.html">High Scores</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main class="home-main">
+    <section>
+      <h1>High Scores 🏆</h1>
+      <p>These results are stored locally in your browser.</p>
+
+      <div id="highscoreContainer" class="home-grid" style="margin-top: 20px;">
+        <!-- Filled by highscores.js -->
+      </div>
+
+      <button id="clearScoresBtn" class="btn-secondary" style="margin-top: 20px;">
+        Clear all scores
+      </button>
+    </section>
+  </main>
+</body>
+
+</html>

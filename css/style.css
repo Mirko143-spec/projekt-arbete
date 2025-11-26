@@ -271,3 +271,224 @@ a {
 #timer {
   font-size: 1.4rem;
 }
+
+
+/* Home Page */
+
+/* === Basic layout / navigation for multi-page site === */
+
+.site-header {
+  width: 100%;
+  background: #000;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.nav {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-weight: 700;
+  text-decoration: none;
+  color: #fff;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 16px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+/* Home layout */
+
+.home-main {
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 16px;
+}
+
+.hero {
+  padding: 40px 0;
+}
+
+.hero-subtitle {
+  margin-top: 10px;
+  max-width: 480px;
+}
+
+.hero-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 10px;
+}
+
+.btn-primary,
+.btn-secondary {
+  display: inline-block;
+  padding: 10px 18px;
+  border-radius: 999px;
+  border: none;
+  font-size: 0.95rem;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background: #000;
+  color: #fff;
+}
+
+.btn-secondary {
+  background: #ffc9c9;
+  color: #000;
+}
+
+.home-features {
+  margin-top: 40px;
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+  margin-top: 16px;
+}
+
+.feature-card {
+  border-radius: 12px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.03);
+}
+
+.home-container {
+  max-width: 600px;
+  margin: 80px auto;
+  text-align: center;
+  padding: 0 20px;
+}
+
+.home-container h1 {
+  font-size: 2.4rem;
+  margin-bottom: 10px;
+}
+
+.home-container p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+
+.home-buttons {
+  margin-top: 25px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.btn-primary, .btn-secondary {
+  padding: 12px 24px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background: black;
+  color: white;
+}
+
+.btn-secondary {
+  background: #ffbdbd;
+  color: black;
+}
+
+
+/* Make the quiz layout full width */
+.mainBody,
+div#quiz,
+section,
+.container {
+  max-width: 900px !important;
+  width: 100% !important;
+  margin: 0 auto !important;
+}
+
+/* Center the whole quiz vertically with breathing space */
+.quiz-page-body {
+  padding-top: 30px;
+  padding-bottom: 30px;
+}
+
+/* Ensure buttons and boxes expand properly */
+button, .answers, .answer, .questionbox {
+  width: 100% !important;
+}
+
+/* Fix small window alignment */
+body {
+  display: block;
+}
+
+
+.modal-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+#restartBtn,
+.exit-btn {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+#restartBtn {
+  background: #1f7a8c;
+  color: white;
+}
+
+#restartBtn:hover {
+  background: #145766;
+}
+
+.exit-btn {
+  background: #ff4d4d;
+  color: white;
+}
+
+.exit-btn:hover {
+  background: #d62828;
+}
+
+
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+
+.middle-section-box {
+  margin-bottom: 20px;
+}
+
+#questionBar {
+  margin-bottom: 25px;
+}
