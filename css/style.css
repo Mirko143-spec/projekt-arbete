@@ -127,19 +127,19 @@ main {
   cursor: pointer;
 }
 
-#answers li span {
+#answers .span {
   display: flex;
   flex-direction: row;
   gap: 1rem;
 }
 
-#answers li span h4 {
+#answers .span h4 {
   color: rgba(0, 0, 0, 0.6);
 }
 .points-box {
   display: flex;
 }
-.points-box span {
+.points-box .span {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,7 +269,7 @@ dialog::backdrop {
   color: black;
 }
 
-#termsConditions span {
+#termsConditions .span {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -282,7 +282,7 @@ dialog::backdrop {
   gap: 0.5rem;
 }
 
-#leaderboard span {
+#leaderboard .span {
   display: flex;
   flex-direction: column;
   gap: 15px;

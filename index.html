@@ -27,10 +27,10 @@
 <body>
     <dialog id="termsConditions">
         <p>im ok with having my data stolen</p>
-        <span>
+        <div class="span">
             <button id="condYes">Yes</button>
             <button id="condNo">No :( </button>
-        </span>
+        </div>
     </dialog>
     <dialog id="startDialog">
         <p>Player Name</p>
@@ -85,21 +85,21 @@
     <main>
         <section class="top-section">
             <div class="top-section-box">
-                <span class="top-section-info">
+                <div class="top-section-info">
                     <img src="./img/icon.svg" alt="film icon">
                     <h1>Quiz App</h1><img src="./img/icon.svg" alt="film icon">
-                </span>
+                </div>
                 <p>Test your knowledge!</p>
-                <span class="top-section-timer">
+                <div class="top-section-timer">
                     <img id="clock" src="./img/clock-blue.svg" alt="blue clock">
                     <p id="timer">0s</p>
-                </span>
+                </div>
             </div>
             <div class="top-section-question">
-                <span>
+                <div class="span">
                     <img src="./img/star.svg" alt="star">
                     <p id="questionNmb">Question 1/10</p>
-                </span>
+                </div>
             </div>
 
             <progress id="questionBar" value="10" max="100"></progress>
@@ -109,54 +109,54 @@
                 <h3 id="question">Loading..</h3>
                 <ul id="answers">
                     <li>
-                        <span>
+                        <div class="span">
                             <h4>A</h4>
                             <p>Loading..</p>
-                        </span>
+                        </div>
                     </li>
                     <li>
-                        <span>
+                        <div class="span">
                             <h4>B</h4>
                             <p>Loading..</p>
-                        </span>
+                        </div>
                     </li>
                     <li>
-                        <span>
+                        <div class="span">
                             <h4>C</h4>
                             <p>Loading..</p>
-                        </span>
+                        </div>
                     </li>
                     <li>
-                        <span>
+                        <div class="span">
                             <h4>D</h4>
                             <p>Loading..</p>
-                        </span>
+                        </div>
                     </li>
                 </ul>
             </div>
             <div class="points-box">
-                <span>
+                <div class="span">
                     <p>1000</p>
                     <div class="pointsBar-container">
                         <progress id="pointsBar" value="0" max="100"></progress>
                     </div>
                     <p>0</p>
-                </span>
-                <span>
+                </div>
+                <div class="span">
                     <p id="points">0 Pts</p>
-                </span>
+                </div>
             </div>
         </section>
         <section class="bottom-section">
             <div id="correct">
-                <span>
+                <div class="span">
                     <p>🎉 Correct! +100 points</p>
-                </span>
+                </div>
             </div>
             <div id="incorrect">
-                <span>
+                <div class="span">
                     <p id="incorrectText"></p>
-                </span>
+                </div>
             </div>
             <button id="nextBtn">Next Question →</button>
             <button id="finish">Finish</button>
@@ -167,14 +167,14 @@
             <ul>
                 <li>Spelet är slut!</li>
                 <li id="result-score">Total score: X</li>
-                <button id="popupleader">See Leaderboard🥇</button>
+                <li><button id="popupleader">See Leaderboard🥇</button></li>
             </ul>
             <button onclick="restartQuiz()">Restart</button>
         </div>
     </dialog>
 
     <dialog id="leaderboard">
-        <span>
+        <div class="span">
             <h1>Leaderboard🥇</h1>
             <p>Choose Difficulty</p>
             <select name="choosediff" id="selectdiff">
@@ -183,7 +183,7 @@
             <ul id="scoreboard">
             </ul>
             <button onclick="restartQuiz()">Close</button>
-        </span>
+        </div>
     </dialog>
 </body>
 
