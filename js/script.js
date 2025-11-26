@@ -31,8 +31,10 @@ let currQuestion;
 let data = [];
 let locked = false;
 let currentCorrectAnswer = null;
+let playerName;
+let category;
+let difficulty;
 
-//values that will be input and stored in the first modal
 const playerNameInput = document.getElementById("playerName");
 const categorySelect = document.getElementById("trivia_category");
 const difficulties = document.getElementById("trivia_difficulty");
@@ -43,14 +45,12 @@ const termsdialog = document.getElementById("termsConditions");
 const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
 
-
-function handleclick(e){
-  if (e.target.id === "condYes"){
+function handleclick(e) {
+  if (e.target.id === "condYes") {
     termsdialog.close();
     dialog.showModal();
     //insert function where the gtag will be
-
-  }else if (e.target.id === "condNo"){
+  } else if (e.target.id === "condNo") {
     termsdialog.close();
     dialog.showModal();
   }
@@ -59,25 +59,22 @@ function handleclick(e){
 condYes.addEventListener("click", handleclick);
 condNo.addEventListener("click", handleclick);
 
-
 startButton.addEventListener("click", async () => {
-  // Info som sparas
-  const playerName = playerNameInput.value.trim();
-  const category = categorySelect.value;
-  const difficulty = difficulties.value;
+  // Info som sparas med inputsession();
+  playerName = playerNameInput.value.trim();
+  category = categorySelect.value;
+  difficulty = difficulties.value;
 
-  sessionStorage.setItem("PlayerName", playerName);
-  sessionStorage.setItem("category", category);
-  sessionStorage.setItem("difficulty", difficulty);
+  //
 
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
-  if (category)   url += `&category=${category}`;
+  if (category) url += `&category=${category}`;
   if (difficulty) url += `&difficulty=${difficulty}&type=multiple`;
 
   console.log("Fetching questions from:", url);
 
-  // HÄMTA frågorna 
+  // HÄMTA frågorna
   data = await fetchQuestions(url);
   console.log("Questions:", data);
 
@@ -89,6 +86,34 @@ startButton.addEventListener("click", async () => {
   // Starta quiz nu när data är fylld
   initQuiz();
 });
+
+function inputSession() {
+  if (!playerName || playerName.trim() === "") {
+    playerName = "Player 1";
+  }
+
+  // 1. Get existing sessions array (or start empty)
+  const existingSessions = JSON.parse(
+    localStorage.getItem("sessions") || "[]"
+  );
+
+  // 2. Build the session object
+  const sessionData = {
+    name: playerName,
+    category,
+    difficulty,
+    points,
+    date: new Date().toISOString(),
+  };
+
+  // 4. Push it into the array
+  existingSessions.push(sessionData);
+
+  // 5. Save the array back to sessionStorage
+  localStorage.setItem("sessions", JSON.stringify(existingSessions));
+
+  fillLeaderboard();
+}
 
 //Timer
 
@@ -108,32 +133,28 @@ let timeLeft = 15;
 let timerInterval;
 const timerElement = document.getElementById("timer");
 
-
-function startTimer(){
+function startTimer() {
   clearInterval(timerInterval);
-  timeLeft=15;
+  timeLeft = 15;
   timerElement.textContent = timeLeft;
 
-  timerInterval = setInterval(()=>{
-
+  timerInterval = setInterval(() => {
     timeLeft--;
     timerElement.textContent = timeLeft;
 
-    if(timeLeft <= 0){
+    if (timeLeft <= 0) {
       clearInterval(timerInterval);
       handleTimeout();
     }
   }, 1000);
 }
 
-function handleTimeout(){
+function handleTimeout() {
   locked = true;
   incorrectText.innerHTML = `⏰ Time's up! The correct answer was: ${currentCorrectAnswer}`;
   incorrectContainer.style.display = "block";
   answersContainer.style.pointerEvents = "none";
 }
-
-
 
 async function fetchQuestions(url) {
   try {
@@ -150,9 +171,6 @@ async function fetchQuestions(url) {
   }
 }
 
-
-
-
 async function initQuiz() {
   // Nollställer spel variabler
   timer = 0;
@@ -162,7 +180,6 @@ async function initQuiz() {
   // Fetchar frågor/svar från API och Startar quizzen
   loadQuestion();
 }
-
 
 async function loadQuestion() {
   // Döljer correct och incorrect div
@@ -185,9 +202,9 @@ async function loadQuestion() {
   for (item of data[randomInt].incorrect_answers) {
     answers.push(item);
   }
-  
+
   // Tar bort den använda frågan från datan så den inte kan användas igen
-  data.splice(randomInt, 1) 
+  data.splice(randomInt, 1);
 
   // Slumpar fram en position i arrayen och lägger till rätt svar på den slumpade positionen.
   let randomPos = Math.floor(Math.random() * (answers.length + 1));
@@ -217,7 +234,6 @@ answersContainer.addEventListener("click", function (e) {
   locked = true;
   answersContainer.style.pointerEvents = "none";
 
-
   if (
     e.target &&
     (e.target.nodeName === "P" ||
@@ -225,7 +241,7 @@ answersContainer.addEventListener("click", function (e) {
       e.target.nodeName === "LI")
   ) {
     let selectedAnswer;
-    let answerDiv; 
+    let answerDiv;
     if (e.target.nodeName === "P") {
       selectedAnswer = e.target.innerText;
       answerDiv = e.target.parentNode.parentNode;
@@ -261,6 +277,7 @@ nextBtn.addEventListener("click", async (e) => {
   if (currQuestion == 11) {
     modal.showModal();
     modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
+    inputSession();
   } else {
     loadQuestion();
     answersContainer.style.pointerEvents = "auto";
@@ -273,8 +290,6 @@ nextBtn.addEventListener("click", async (e) => {
   pBarHorizontal.value = currQuestion * 10;
 });
 
-
-
 function updateScore(pointsToAdd) {
   points += pointsToAdd;
   pNmbVertical.innerText = `${points} pts`;
@@ -285,5 +300,97 @@ function updateScore(pointsToAdd) {
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
 
+//save
+function fillLeaderboard(selectedDifficulty = "all") {
+  if (!selectedDifficulty) selectedDifficulty = "all";
+
+  // always read fresh data
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+
+  const rack = document.getElementById("scoreboard");
+  rack.innerHTML = ""; // clear old items
+
+  // normalize
+  selectedDifficulty = selectedDifficulty.toLowerCase();
+
+  const filtered = sessions.filter(function (s) {
+    if (selectedDifficulty === "all") return true;
+    
+    return s.difficulty === selectedDifficulty;
+  });
+
+  filtered.sort(function (a, b) {
+    return b.points - a.points;
+  });
+
+  filtered.forEach(function (s) {
+  const li = document.createElement("li");
+
+  if (selectedDifficulty === "all") {
+    // Show difficulty tag only when viewing ALL results
+    li.textContent = `${s.points} points - ${s.name} (${s.difficulty})`;
+  } else {
+    // When filtering by a single difficulty, don't show it
+    li.textContent = `${s.points} points - ${s.name}`;
+  }
+
+  rack.appendChild(li);
+});
+}
+
+function populateDifficultySelect() {
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+  const select = document.getElementById("selectdiff");
+
+  // remove all options except the first "All"
+  while (select.options.length > 1) {
+    select.remove(1);
+  }
+
+  // unique difficulties
+  const difficulties = [...new Set(sessions.map((s) => s.difficulty))];
+
+  difficulties.forEach(function (diff) {
+    const option = document.createElement("option");
+    option.value = diff.toLowerCase(); // value used in filter
+    option.textContent =
+      diff.charAt(0).toUpperCase() + diff.slice(1); // label for user
+    select.appendChild(option);
+  });
+}
+  const select = document.getElementById("selectdiff");
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // populate dropdown and initial leaderboard
+  populateDifficultySelect();
+  fillLeaderboard("all");
+
+  // change filter when user picks difficulty
+  select.addEventListener("change", function () {
+    fillLeaderboard(select.value);
+     //"all", "easy", "medium", etc.
+  });
+
+ 
+});
+
+function saveSession(sessionData) {
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+  sessions.push(sessionData);
+  localStorage.setItem("sessions", JSON.stringify(sessions));
+
+  populateDifficultySelect();
+
+  const currentSelect = document.getElementById("selectdiff");
+  fillLeaderboard(currentSelect.value || "all");
+}
 
 
+const popupleader = document.getElementById("popupleader");
+const leaderboardmodal = document.getElementById("leaderboard");
+
+popupleader.addEventListener("click", function () {
+  modal.close();
+  leaderboardmodal.showModal();
+});
