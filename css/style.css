@@ -53,7 +53,7 @@ main {
   display: flex;
 }
 .top-section-timer,
-.top-section-question span {
+.top-section-question .span {
   display: flex;
   gap: 10px;
 }
