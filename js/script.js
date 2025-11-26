@@ -72,8 +72,7 @@ startButton.addEventListener("click", async () => {
   playerName = playerNameInput.value.trim();
   category = categorySelect.value;
   difficulty = difficulties.value;
-
-  //
+  modal.close();
 
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
