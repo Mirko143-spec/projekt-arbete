@@ -25,7 +25,16 @@ const nextBtn = document.getElementById("nextBtn");
 const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
-// Variabler som skapas och sparas från första modalen
+let timer;
+let points;
+let currQuestion;
+let data = [];
+let locked = false;
+let currentCorrectAnswer = null;
+let playerName;
+let category;
+let difficulty;
+
 const playerNameInput = document.getElementById("playerName");
 const categorySelect = document.getElementById("trivia_category");
 const difficulties = document.getElementById("trivia_difficulty");
@@ -37,17 +46,10 @@ const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
 
 // Globala variabler
-let timer;
-let points = 0;
-let currQuestion;
-let data = [];
-let locked = false;
-let currentCorrectAnswer = null;
+
 
 // Timer variabler
-let timeLeft = 15;
-let timerInterval;
-const timerElement = document.getElementById("timer");
+
 const clock = document.getElementById("clock");
 
 function handleclick(e) {
@@ -68,14 +70,12 @@ condNo.addEventListener("click", handleclick);
 window.addEventListener("load", () => termsdialog.showModal());
 
 startButton.addEventListener("click", async () => {
-  // Info som sparas
-  const playerName = playerNameInput.value.trim();
-  const category = categorySelect.value;
-  const difficulty = difficulties.value;
+  // Info som sparas med inputsession();
+  playerName = playerNameInput.value.trim();
+  category = categorySelect.value;
+  difficulty = difficulties.value;
 
-  sessionStorage.setItem("PlayerName", playerName);
-  sessionStorage.setItem("category", category);
-  sessionStorage.setItem("difficulty", difficulty);
+  //
 
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
@@ -99,7 +99,54 @@ startButton.addEventListener("click", async () => {
   initQuiz();
 });
 
-function startTimer() {
+function inputSession() {
+  if (!playerName || playerName.trim() === "") {
+    playerName = "Player 1";
+  }
+
+  // 1. Get existing sessions array (or start empty)
+  const existingSessions = JSON.parse(
+    localStorage.getItem("sessions") || "[]"
+  );
+
+  // 2. Build the session object
+  const sessionData = {
+    name: playerName,
+    category,
+    difficulty,
+    points,
+    date: new Date().toISOString(),
+  };
+
+  // 4. Push it into the array
+  existingSessions.push(sessionData);
+
+  // 5. Save the array back to sessionStorage
+  localStorage.setItem("sessions", JSON.stringify(existingSessions));
+
+  fillLeaderboard();
+}
+
+//Timer
+
+// Uppgifter:
+
+// currentQuestionIndex++
+
+// Visa nästa fråga eller visa resultatskärm
+
+// Återställ UI (ta bort “Correct!” / “Incorrect!”)
+
+// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
+
+// Beroende: Ticket 3, 4, 5
+// Ansvar: Flöde / Navigering
+let timeLeft = 15;
+let timerInterval;
+const timerElement = document.getElementById("timer");
+
+
+function startTimer(){
   clearInterval(timerInterval);
   timeLeft = 15;
   timerElement.textContent = timeLeft;
@@ -250,6 +297,7 @@ nextBtn.addEventListener("click", async (e) => {
   if (currQuestion == 11) {
     modal.showModal();
     modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
+    inputSession();
   } else {
     loadQuestion();
     answersContainer.style.pointerEvents = "auto";
@@ -272,3 +320,97 @@ function updateScore(pointsToAdd) {
   pNmbVertical.style.marginTop = `${pBarMargin}px`;
 }
 
+//save
+function fillLeaderboard(selectedDifficulty = "all") {
+  if (!selectedDifficulty) selectedDifficulty = "all";
+
+  // always read fresh data
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+
+  const rack = document.getElementById("scoreboard");
+  rack.innerHTML = ""; // clear old items
+
+  // normalize
+  selectedDifficulty = selectedDifficulty.toLowerCase();
+
+  const filtered = sessions.filter(function (s) {
+    if (selectedDifficulty === "all") return true;
+    
+    return s.difficulty === selectedDifficulty;
+  });
+
+  filtered.sort(function (a, b) {
+    return b.points - a.points;
+  });
+
+  filtered.forEach(function (s) {
+  const li = document.createElement("li");
+
+  if (selectedDifficulty === "all") {
+    // Show difficulty tag only when viewing ALL results
+    li.textContent = `${s.points} points - ${s.name} (${s.difficulty})`;
+  } else {
+    // When filtering by a single difficulty, don't show it
+    li.textContent = `${s.points} points - ${s.name}`;
+  }
+
+  rack.appendChild(li);
+});
+}
+
+function populateDifficultySelect() {
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+  const select = document.getElementById("selectdiff");
+
+  // remove all options except the first "All"
+  while (select.options.length > 1) {
+    select.remove(1);
+  }
+
+  // unique difficulties
+  const difficulties = [...new Set(sessions.map((s) => s.difficulty))];
+
+  difficulties.forEach(function (diff) {
+    const option = document.createElement("option");
+    option.value = diff.toLowerCase(); // value used in filter
+    option.textContent =
+      diff.charAt(0).toUpperCase() + diff.slice(1); // label for user
+    select.appendChild(option);
+  });
+}
+  const select = document.getElementById("selectdiff");
+
+document.addEventListener("DOMContentLoaded", function () {
+
+  // populate dropdown and initial leaderboard
+  populateDifficultySelect();
+  fillLeaderboard("all");
+
+  // change filter when user picks difficulty
+  select.addEventListener("change", function () {
+    fillLeaderboard(select.value);
+     //"all", "easy", "medium", etc.
+  });
+
+ 
+});
+
+function saveSession(sessionData) {
+  const sessions = JSON.parse(localStorage.getItem("sessions") || "[]");
+  sessions.push(sessionData);
+  localStorage.setItem("sessions", JSON.stringify(sessions));
+
+  populateDifficultySelect();
+
+  const currentSelect = document.getElementById("selectdiff");
+  fillLeaderboard(currentSelect.value || "all");
+}
+
+
+const popupleader = document.getElementById("popupleader");
+const leaderboardmodal = document.getElementById("leaderboard");
+
+popupleader.addEventListener("click", function () {
+  modal.close();
+  leaderboardmodal.showModal();
+});
