@@ -2,26 +2,27 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description"
         content="Testa dina kunskaper med våra roliga och utmanande quiz! Spela gratis, jämför resultat med vänner och upptäck nya frågor varje dag." />
     <title>Quiz App</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/mobile.css">
-    <link rel="stylesheet" href="./css/tablet.css">
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/mobile.css" />
+    <link rel="stylesheet" href="./css/tablet.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-0LT82XYRXF"></script>
+    <!-- Google tag (gtag.js) -->
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX'); // your GA4 Measurement ID
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag("js", new Date());
+        gtag("config", 'G-0LT82XYRXF');
     </script>
+
     <script src="./js/script.js" defer></script>
-
-
 </head>
 
 <body>
@@ -34,11 +35,10 @@
     </dialog>
     <dialog id="startDialog">
         <p>Player Name</p>
-        <input id="playerName" type="text" placeholder="Player Name">
+        <input id="playerName" type="text" placeholder="Player Name" />
         <p>Start quiz</p>
 
         <select id="trivia_category" name="trivia_category" class="form-controlcat">
-
             <option value="any">Choose Category</option>
 
             <option value="9">General Knowledge</option>
@@ -70,7 +70,6 @@
             <option value="30">Science: Gadgets</option>
 
             <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
-
         </select>
         <select id="trivia_difficulty" name="trivia_difficulty" class="form-controldiff">
             <option value="any">Choose Difficulty</option>
