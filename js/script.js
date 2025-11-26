@@ -123,7 +123,7 @@ function inputSession() {
   localStorage.setItem("sessions", JSON.stringify(existingSessions));
 
     if (userconsent && typeof window.gtag === "function") {
-    window.gtag("event", "quiz_complete", {
+      gtag("event", "quiz_complete", {
       player_name: sessionData.name,
       category: sessionData.category || "any",
       difficulty: sessionData.difficulty || "any",

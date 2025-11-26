@@ -1,190 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description"
-        content="Testa dina kunskaper med våra roliga och utmanande quiz! Spela gratis, jämför resultat med vänner och upptäck nya frågor varje dag." />
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Testa dina kunskaper med våra roliga och utmanande quiz! Spela gratis, jämför resultat med vänner och upptäck nya frågor varje dag."
+    />
     <title>Quiz App</title>
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/mobile.css">
-    <link rel="stylesheet" href="./css/tablet.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/mobile.css" />
+    <link rel="stylesheet" href="./css/tablet.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    />
+    <script
+      async
+      src="https://www.googletagmanager.com/gtag/js?id=G-0LT82XYRXF"
+    ></script>
     <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-
-        gtag('js', new Date());
-        gtag('config', 'G-XXXXXXX'); // your GA4 Measurement ID
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      tag("config", "G-0LT82XYRXF"); // your GA4 Measurement ID
     </script>
     <script src="./js/script.js" defer></script>
+  </head>
 
-
-</head>
-
-<body>
+  <body>
     <dialog id="termsConditions">
-        <p>im ok with having my data stolen</p>
-        <span>
-            <button id="condYes">Yes</button>
-            <button id="condNo">No :( </button>
-        </span>
+      <p>im ok with having my data stolen</p>
+      <span>
+        <button id="condYes">Yes</button>
+        <button id="condNo">No :(</button>
+      </span>
     </dialog>
     <dialog id="startDialog">
-        <p>Player Name</p>
-        <input id="playerName" type="text" placeholder="Player Name">
-        <p>Start quiz</p>
+      <p>Player Name</p>
+      <input id="playerName" type="text" placeholder="Player Name" />
+      <p>Start quiz</p>
 
-        <select id="trivia_category" name="trivia_category" class="form-controlcat">
+      <select
+        id="trivia_category"
+        name="trivia_category"
+        class="form-controlcat"
+      >
+        <option value="any">Choose Category</option>
 
-            <option value="any">Choose Category</option>
+        <option value="9">General Knowledge</option>
 
-            <option value="9">General Knowledge</option>
+        <option value="11">Entertainment: Film</option>
 
-            <option value="11">Entertainment: Film</option>
+        <option value="12">Entertainment: Music</option>
 
-            <option value="12">Entertainment: Music</option>
+        <option value="15">Entertainment: Video Games</option>
 
-            <option value="15">Entertainment: Video Games</option>
+        <option value="18">Science: Computers</option>
 
-            <option value="18">Science: Computers</option>
+        <option value="20">Mythology</option>
 
-            <option value="20">Mythology</option>
+        <option value="21">Sports</option>
 
-            <option value="21">Sports</option>
+        <option value="22">Geography</option>
 
-            <option value="22">Geography</option>
+        <option value="23">History</option>
 
-            <option value="23">History</option>
+        <option value="24">Politics</option>
 
-            <option value="24">Politics</option>
+        <option value="27">Animals</option>
 
-            <option value="27">Animals</option>
+        <option value="28">Vehicles</option>
 
-            <option value="28">Vehicles</option>
+        <option value="29">Entertainment: Comics</option>
 
-            <option value="29">Entertainment: Comics</option>
+        <option value="30">Science: Gadgets</option>
 
-            <option value="30">Science: Gadgets</option>
-
-            <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
-
-        </select>
-        <select id="trivia_difficulty" name="trivia_difficulty" class="form-controldiff">
-            <option value="any">Choose Difficulty</option>
-            <option value="easy">Easy</option>
-            <option value="medium">Medium</option>
-            <option value="hard">Hard</option>
-        </select>
-        <form method="dialog">
-            <button id="startButton">Start Quiz!</button>
-        </form>
+        <option value="31">Entertainment: Japanese Anime &amp; Manga</option>
+      </select>
+      <select
+        id="trivia_difficulty"
+        name="trivia_difficulty"
+        class="form-controldiff"
+      >
+        <option value="any">Choose Difficulty</option>
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+      <form method="dialog">
+        <button id="startButton">Start Quiz!</button>
+      </form>
     </dialog>
     <main>
-        <section class="top-section">
-            <div class="top-section-box">
-                <span class="top-section-info">
-                    <img src="./img/icon.svg" alt="film icon">
-                    <h1>Quiz App</h1><img src="./img/icon.svg" alt="film icon">
-                </span>
-                <p>Test your knowledge!</p>
-                <span class="top-section-timer">
-                    <img id="clock" src="./img/clock-blue.svg" alt="blue clock">
-                    <p id="timer">0s</p>
-                </span>
-            </div>
-            <div class="top-section-question">
-                <span>
-                    <img src="./img/star.svg" alt="star">
-                    <p id="questionNmb">Question 1/10</p>
-                </span>
-            </div>
+      <section class="top-section">
+        <div class="top-section-box">
+          <span class="top-section-info">
+            <img src="./img/icon.svg" alt="film icon" />
+            <h1>Quiz App</h1>
+            <img src="./img/icon.svg" alt="film icon" />
+          </span>
+          <p>Test your knowledge!</p>
+          <span class="top-section-timer">
+            <img id="clock" src="./img/clock-blue.svg" alt="blue clock" />
+            <p id="timer">0s</p>
+          </span>
+        </div>
+        <div class="top-section-question">
+          <span>
+            <img src="./img/star.svg" alt="star" />
+            <p id="questionNmb">Question 1/10</p>
+          </span>
+        </div>
 
-            <progress id="questionBar" value="10" max="100"></progress>
-        </section>
-        <section class="middle-section">
-            <div class="middle-section-box">
-                <h3 id="question">Loading..</h3>
-                <ul id="answers">
-                    <li>
-                        <span>
-                            <h4>A</h4>
-                            <p>Loading..</p>
-                        </span>
-                    </li>
-                    <li>
-                        <span>
-                            <h4>B</h4>
-                            <p>Loading..</p>
-                        </span>
-                    </li>
-                    <li>
-                        <span>
-                            <h4>C</h4>
-                            <p>Loading..</p>
-                        </span>
-                    </li>
-                    <li>
-                        <span>
-                            <h4>D</h4>
-                            <p>Loading..</p>
-                        </span>
-                    </li>
-                </ul>
+        <progress id="questionBar" value="10" max="100"></progress>
+      </section>
+      <section class="middle-section">
+        <div class="middle-section-box">
+          <h3 id="question">Loading..</h3>
+          <ul id="answers">
+            <li>
+              <span>
+                <h4>A</h4>
+                <p>Loading..</p>
+              </span>
+            </li>
+            <li>
+              <span>
+                <h4>B</h4>
+                <p>Loading..</p>
+              </span>
+            </li>
+            <li>
+              <span>
+                <h4>C</h4>
+                <p>Loading..</p>
+              </span>
+            </li>
+            <li>
+              <span>
+                <h4>D</h4>
+                <p>Loading..</p>
+              </span>
+            </li>
+          </ul>
+        </div>
+        <div class="points-box">
+          <span>
+            <p>1000</p>
+            <div class="pointsBar-container">
+              <progress id="pointsBar" value="0" max="100"></progress>
             </div>
-            <div class="points-box">
-                <span>
-                    <p>1000</p>
-                    <div class="pointsBar-container">
-                        <progress id="pointsBar" value="0" max="100"></progress>
-                    </div>
-                    <p>0</p>
-                </span>
-                <span>
-                    <p id="points">0 Pts</p>
-                </span>
-            </div>
-        </section>
-        <section class="bottom-section">
-            <div id="correct">
-                <span>
-                    <p>🎉 Correct! +100 points</p>
-                </span>
-            </div>
-            <div id="incorrect">
-                <span>
-                    <p id="incorrectText"></p>
-                </span>
-            </div>
-            <button id="nextBtn">Next Question →</button>
-            <button id="finish">Finish</button>
-        </section>
+            <p>0</p>
+          </span>
+          <span>
+            <p id="points">0 Pts</p>
+          </span>
+        </div>
+      </section>
+      <section class="bottom-section">
+        <div id="correct">
+          <span>
+            <p>🎉 Correct! +100 points</p>
+          </span>
+        </div>
+        <div id="incorrect">
+          <span>
+            <p id="incorrectText"></p>
+          </span>
+        </div>
+        <button id="nextBtn">Next Question →</button>
+        <button id="finish">Finish</button>
+      </section>
     </main>
     <dialog id="result">
-        <div class="result-container">
-            <ul>
-                <li>Spelet är slut!</li>
-                <li id="result-score">Total score: X</li>
-                <button id="popupleader">See Leaderboard🥇</button>
-            </ul>
-            <button onclick="restartQuiz()">Restart</button>
-        </div>
+      <div class="result-container">
+        <ul>
+          <li>Spelet är slut!</li>
+          <li id="result-score">Total score: X</li>
+          <button id="popupleader">See Leaderboard🥇</button>
+        </ul>
+        <button onclick="restartQuiz()">Restart</button>
+      </div>
     </dialog>
 
     <dialog id="leaderboard">
-        <span>
-            <h1>Leaderboard🥇</h1>
-            <p>Choose Difficulty</p>
-            <select name="choosediff" id="selectdiff">
-                <option value="All">All</option>
-            </select>
-            <ul id="scoreboard">
-            </ul>
-            <button onclick="restartQuiz()">Close</button>
-        </span>
+      <span>
+        <h1>Leaderboard🥇</h1>
+        <p>Choose Difficulty</p>
+        <select name="choosediff" id="selectdiff">
+          <option value="All">All</option>
+        </select>
+        <ul id="scoreboard"></ul>
+        <button onclick="restartQuiz()">Close</button>
+      </span>
     </dialog>
-</body>
-
+  </body>
 </html>
