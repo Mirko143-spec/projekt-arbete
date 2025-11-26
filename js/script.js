@@ -1,4 +1,3 @@
-
 //Frågenummer (Question 1/10)
 const questionNmb = document.getElementById("questionNmb");
 
@@ -44,7 +43,6 @@ const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
 
 // Globala variabler
-
 
 // Timer variabler
 
@@ -102,9 +100,7 @@ function inputSession() {
   }
 
   // 1. Get existing sessions array (or start empty)
-  const existingSessions = JSON.parse(
-    localStorage.getItem("sessions") || "[]"
-  );
+  const existingSessions = JSON.parse(localStorage.getItem("sessions") || "[]");
 
   // 2. Build the session object
   const sessionData = {
@@ -128,8 +124,7 @@ let timeLeft = 15;
 let timerInterval;
 const timerElement = document.getElementById("timer");
 
-
-function startTimer(){
+function startTimer() {
   clock.src = "./img/clock-blue.svg";
   clearInterval(timerInterval);
   timeLeft = 15;
@@ -178,7 +173,7 @@ async function initQuiz() {
   timer = 0;
   points = 0;
   currQuestion = 1;
-
+  pBarHorizontal.value = 10;
   // Fetchar frågor/svar från API och Startar quizzen
   loadQuestion();
 }
@@ -274,19 +269,25 @@ answersContainer.addEventListener("click", function (e) {
   }
 });
 
+const finish = document.getElementById("finish");
+finish.addEventListener("click", () => {
+  clearInterval(timerInterval);
+  modal.showModal();
+  modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
+  inputSession();
+});
+
 nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
+
+  if (currQuestion > 9) {
+    nextBtn.style.display = "none";
+    finish.style.display = "flex";
+  }
   // Tar bort den använda frågan från datan så den inte kan användas igen
-  if (currQuestion > 10) {
-
+  if (currQuestion !== 11) {
     // FUNKAR EJ - PLS MAGYSTR MIRAN FIX
-    clearInterval(timerInterval);
-
-    modal.showModal();
-    modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
-    inputSession();
-  } else {
     loadQuestion();
     answersContainer.style.pointerEvents = "auto";
     for (const answer of answersContainer.children) {
@@ -294,6 +295,7 @@ nextBtn.addEventListener("click", async (e) => {
       answer.children[0].children[1].style.backgroundColor = "transparent";
     }
     questionNmb.innerText = `Question ${currQuestion}/10`;
+  } else {
   }
   pBarHorizontal.value = currQuestion * 10;
   startTimer();
@@ -324,7 +326,7 @@ function fillLeaderboard(selectedDifficulty = "all") {
 
   const filtered = sessions.filter(function (s) {
     if (selectedDifficulty === "all") return true;
-    
+
     return s.difficulty === selectedDifficulty;
   });
 
@@ -333,18 +335,18 @@ function fillLeaderboard(selectedDifficulty = "all") {
   });
 
   filtered.forEach(function (s) {
-  const li = document.createElement("li");
+    const li = document.createElement("li");
 
-  if (selectedDifficulty === "all") {
-    // Show difficulty tag only when viewing ALL results
-    li.textContent = `${s.points} points - ${s.name} (${s.difficulty})`;
-  } else {
-    // When filtering by a single difficulty, don't show it
-    li.textContent = `${s.points} points - ${s.name}`;
-  }
+    if (selectedDifficulty === "all") {
+      // Show difficulty tag only when viewing ALL results
+      li.textContent = `${s.points} points - ${s.name} (${s.difficulty})`;
+    } else {
+      // When filtering by a single difficulty, don't show it
+      li.textContent = `${s.points} points - ${s.name}`;
+    }
 
-  rack.appendChild(li);
-});
+    rack.appendChild(li);
+  });
 }
 
 function populateDifficultySelect() {
@@ -362,15 +364,13 @@ function populateDifficultySelect() {
   difficulties.forEach(function (diff) {
     const option = document.createElement("option");
     option.value = diff.toLowerCase(); // value used in filter
-    option.textContent =
-      diff.charAt(0).toUpperCase() + diff.slice(1); // label for user
+    option.textContent = diff.charAt(0).toUpperCase() + diff.slice(1); // label for user
     select.appendChild(option);
   });
 }
-  const select = document.getElementById("selectdiff");
+const select = document.getElementById("selectdiff");
 
 document.addEventListener("DOMContentLoaded", function () {
-
   // populate dropdown and initial leaderboard
   populateDifficultySelect();
   fillLeaderboard("all");
@@ -378,10 +378,8 @@ document.addEventListener("DOMContentLoaded", function () {
   // change filter when user picks difficulty
   select.addEventListener("change", function () {
     fillLeaderboard(select.value);
-     //"all", "easy", "medium", etc.
+    //"all", "easy", "medium", etc.
   });
-
- 
 });
 
 function saveSession(sessionData) {
@@ -395,21 +393,25 @@ function saveSession(sessionData) {
   fillLeaderboard(currentSelect.value || "all");
 }
 
-
 const popupleader = document.getElementById("popupleader");
 const leaderboardmodal = document.getElementById("leaderboard");
-const closeLeader = document.getElementById("closeLeaderboard");
 
 function restartQuiz() {
   questionNmb.innerText = `Question 1/10`;
   leaderboardmodal.close();
+  modal.close();
   dialog.showModal();
   dialog.style.display = "flex";
+  nextBtn.style.display = "flex";
+  finish.style.display = "none";
   clearInterval(timerInterval);
   initQuiz();
-};
+}
 
 popupleader.addEventListener("click", function () {
   modal.close();
   leaderboardmodal.showModal();
+  clearInterval(timerInterval);
 });
+
+startButton.addEventListener("click", () => modal.close());
