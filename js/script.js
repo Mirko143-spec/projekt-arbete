@@ -32,6 +32,7 @@ let currentCorrectAnswer = null;
 let playerName;
 let category;
 let difficulty;
+let userconsent = false;
 
 const playerNameInput = document.getElementById("playerName");
 const categorySelect = document.getElementById("trivia_category");
@@ -48,10 +49,14 @@ const condNo = document.getElementById("condNo");
 
 // Timer variabler
 
+
+
 const clock = document.getElementById("clock");
 
 function handleclick(e) {
   if (e.target.id === "condYes") {
+
+    userconsent = true;
     termsdialog.close();
     dialog.showModal();
     dialog.style.display = "flex";
@@ -121,14 +126,15 @@ function inputSession() {
   // 5. Save the array back to sessionStorage
   localStorage.setItem("sessions", JSON.stringify(existingSessions));
 
-    if (typeof gtag === "function") {
-    gtag("event", "quiz_complete", {
+    if (userconsent && typeof window.gtag === "function") {
+    window.gtag("event", "quiz_complete", {
       player_name: sessionData.name,
       category: sessionData.category || "any",
       difficulty: sessionData.difficulty || "any",
       score: sessionData.points,
       question_count: 10,
     });
+    console.log("chavez engineering");
   }
 
   fillLeaderboard();
