@@ -121,6 +121,16 @@ function inputSession() {
   // 5. Save the array back to sessionStorage
   localStorage.setItem("sessions", JSON.stringify(existingSessions));
 
+    if (typeof gtag === "function") {
+    gtag("event", "quiz_complete", {
+      player_name: sessionData.name,
+      category: sessionData.category || "any",
+      difficulty: sessionData.difficulty || "any",
+      score: sessionData.points,
+      question_count: 10,
+    });
+  }
+
   fillLeaderboard();
 }
 
