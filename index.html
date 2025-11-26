@@ -15,8 +15,10 @@
 <body>
     <dialog id="termsConditions">
         <p>im ok with having my data stolen</p>
-        <button id="condYes">Yes</button>
-        <button id="condNo">No :( </button>
+        <span>
+            <button id="condYes">Yes</button>
+            <button id="condNo">No :( </button>
+        </span>
     </dialog>
     <dialog id="startDialog">
         <p>Player Name</p>
@@ -154,21 +156,21 @@
                 <li id="result-score">Total score: X</li>
                 <button id="popupleader">See Leaderboard🥇</button>
             </ul>
-            <button><a href="">Restart</a></button>
+            <button onclick="restartQuiz()">Restart</button>
         </div>
     </dialog>
 
-    <dialog  id="leaderboard">
-        <h1>Leaderboard🥇</h1>
-
-            <p>Choose Difficulty</p>
-            <select name="choosediff" id="selectdiff">
-                <option value="All">All</option>
-
-            </select>
+    <dialog id="leaderboard">
+        <span>
+            <h1>Leaderboard🥇</h1>
+                <p>Choose Difficulty</p>
+                <select name="choosediff" id="selectdiff">
+                    <option value="All">All</option>
+                </select>
         <ul id="scoreboard">
-
         </ul>
+        <button onclick="restartQuiz()">Close</button>
+        </span>
     </dialog>
 </body>
 

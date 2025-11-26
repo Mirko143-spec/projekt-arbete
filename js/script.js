@@ -1,5 +1,3 @@
-//Timer elementet
-//const timerElement = document.getElementById("timer");
 
 //Frågenummer (Question 1/10)
 const questionNmb = document.getElementById("questionNmb");
@@ -74,8 +72,7 @@ startButton.addEventListener("click", async () => {
   playerName = playerNameInput.value.trim();
   category = categorySelect.value;
   difficulty = difficulties.value;
-
-  //
+  modal.close();
 
   // Bygg URL
   let url = `https://opentdb.com/api.php?amount=10`;
@@ -127,26 +124,13 @@ function inputSession() {
   fillLeaderboard();
 }
 
-//Timer
-
-// Uppgifter:
-
-// currentQuestionIndex++
-
-// Visa nästa fråga eller visa resultatskärm
-
-// Återställ UI (ta bort “Correct!” / “Incorrect!”)
-
-// Hantera quizets slut (t.ex. visa totalpoäng, restart-knapp)
-
-// Beroende: Ticket 3, 4, 5
-// Ansvar: Flöde / Navigering
 let timeLeft = 15;
 let timerInterval;
 const timerElement = document.getElementById("timer");
 
 
 function startTimer(){
+  clock.src = "./img/clock-blue.svg";
   clearInterval(timerInterval);
   timeLeft = 15;
   timerElement.textContent = timeLeft;
@@ -294,7 +278,11 @@ nextBtn.addEventListener("click", async (e) => {
   currQuestion++;
   locked = false;
   // Tar bort den använda frågan från datan så den inte kan användas igen
-  if (currQuestion == 11) {
+  if (currQuestion > 10) {
+
+    // FUNKAR EJ - PLS MAGYSTR MIRAN FIX
+    clearInterval(timerInterval);
+
     modal.showModal();
     modalScore.innerText = `Ditt resultat blev ${points} poäng!`;
     inputSession();
@@ -308,6 +296,7 @@ nextBtn.addEventListener("click", async (e) => {
     questionNmb.innerText = `Question ${currQuestion}/10`;
   }
   pBarHorizontal.value = currQuestion * 10;
+  startTimer();
 });
 
 function updateScore(pointsToAdd) {
@@ -409,6 +398,16 @@ function saveSession(sessionData) {
 
 const popupleader = document.getElementById("popupleader");
 const leaderboardmodal = document.getElementById("leaderboard");
+const closeLeader = document.getElementById("closeLeaderboard");
+
+function restartQuiz() {
+  questionNmb.innerText = `Question 1/10`;
+  leaderboardmodal.close();
+  dialog.showModal();
+  dialog.style.display = "flex";
+  clearInterval(timerInterval);
+  initQuiz();
+};
 
 popupleader.addEventListener("click", function () {
   modal.close();

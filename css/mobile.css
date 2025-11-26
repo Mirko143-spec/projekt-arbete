@@ -18,4 +18,8 @@
   .points-box span:nth-child(2) {
     display: none;
   }
+  #termsConditions, #startDialog, #leaderboard, #result {
+    padding: 25px;
+    text-align: center;
+  }
 }
