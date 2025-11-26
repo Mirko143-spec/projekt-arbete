@@ -210,6 +210,10 @@ main {
   color: white;
 }
 
+#finish {
+  display: none;
+}
+
 button {
   cursor: pointer;
 }
@@ -231,15 +235,19 @@ dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.6);
 }
 
-#trivia_difficulty, 
-#trivia_category, #playerName, #selectdiff {
+#trivia_difficulty,
+#trivia_category,
+#playerName,
+#selectdiff {
   padding: 5px;
   border-radius: 5px;
   border: solid white 2px;
 }
 
 #termsConditions,
-#startDialog, #leaderboard, #result  {
+#startDialog,
+#leaderboard,
+#result {
   background: linear-gradient(to bottom, #f0b100, #ffdf20);
   border: solid white 2px;
   position: absolute;
@@ -250,21 +258,23 @@ dialog::backdrop {
   border-radius: 1rem;
 }
 
-#startButton, .result-container button, 
-#leaderboard button, #termsConditions button  {
+#startButton,
+.result-container button,
+#leaderboard button,
+#termsConditions button {
   width: 100%;
   padding: 5px;
   border-radius: 10px;
   border: white 2px solid;
-  color: black; 
+  color: black;
 }
 
-#termsConditions span { 
+#termsConditions span {
   display: flex;
   flex-direction: column;
   gap: 5px;
   margin-top: 20px;
-} 
+}
 
 #startDialog {
   display: none;
