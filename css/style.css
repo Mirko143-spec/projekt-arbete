@@ -53,7 +53,7 @@ main {
   display: flex;
 }
 .top-section-timer,
-.top-section-question .span {
+.top-section-question-container {
   display: flex;
   gap: 10px;
 }
@@ -127,19 +127,19 @@ main {
   cursor: pointer;
 }
 
-#answers .span {
+.answers-container {
   display: flex;
   flex-direction: row;
   gap: 1rem;
 }
 
-#answers .span h4 {
+.answers-container h4 {
   color: rgba(0, 0, 0, 0.6);
 }
 .points-box {
   display: flex;
 }
-.points-box .span {
+.points-box-container {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -269,7 +269,7 @@ dialog::backdrop {
   color: black;
 }
 
-#termsConditions .span {
+.termsContainer {
   display: flex;
   flex-direction: column;
   gap: 5px;
@@ -282,7 +282,7 @@ dialog::backdrop {
   gap: 0.5rem;
 }
 
-#leaderboard .span {
+.leaderboard-container {
   display: flex;
   flex-direction: column;
   gap: 15px;

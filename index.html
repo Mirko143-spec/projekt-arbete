@@ -28,7 +28,7 @@
 <body>
     <dialog id="termsConditions">
         <p>im ok with having my data stolen</p>
-        <div class="span">
+        <div class="termsContainer">
             <button id="condYes">Yes</button>
             <button id="condNo">No :( </button>
         </div>
@@ -95,7 +95,7 @@
                 </div>
             </div>
             <div class="top-section-question">
-                <div class="span">
+                <div class="top-section-question-container">
                     <img src="./img/star.svg" alt="star">
                     <p id="questionNmb">Question 1/10</p>
                 </div>
@@ -108,25 +108,25 @@
                 <h3 id="question">Loading..</h3>
                 <ul id="answers">
                     <li>
-                        <div class="span">
+                        <div class="answers-container">
                             <h4>A</h4>
                             <p>Loading..</p>
                         </div>
                     </li>
                     <li>
-                        <div class="span">
+                        <div class="answers-container">
                             <h4>B</h4>
                             <p>Loading..</p>
                         </div>
                     </li>
                     <li>
-                        <div class="span">
+                        <div class="answers-container">
                             <h4>C</h4>
                             <p>Loading..</p>
                         </div>
                     </li>
                     <li>
-                        <div class="span">
+                        <div class="answers-container">
                             <h4>D</h4>
                             <p>Loading..</p>
                         </div>
@@ -134,26 +134,26 @@
                 </ul>
             </div>
             <div class="points-box">
-                <div class="span">
+                <div class="points-box-container">
                     <p>1000</p>
                     <div class="pointsBar-container">
                         <progress id="pointsBar" value="0" max="100"></progress>
                     </div>
                     <p>0</p>
                 </div>
-                <div class="span">
+                <div>
                     <p id="points">0 Pts</p>
                 </div>
             </div>
         </section>
         <section class="bottom-section">
             <div id="correct">
-                <div class="span">
+                <div>
                     <p>🎉 Correct! +100 points</p>
                 </div>
             </div>
             <div id="incorrect">
-                <div class="span">
+                <div>
                     <p id="incorrectText"></p>
                 </div>
             </div>
@@ -173,7 +173,7 @@
     </dialog>
 
     <dialog id="leaderboard">
-        <div class="span">
+        <div class="leaderboard-container">
             <h1>Leaderboard🥇</h1>
             <p>Choose Difficulty</p>
             <select name="choosediff" id="selectdiff">
