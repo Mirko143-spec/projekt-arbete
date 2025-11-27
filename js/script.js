@@ -22,6 +22,7 @@ const nextBtn = document.getElementById("nextBtn");
 const modal = document.getElementById("result");
 const modalScore = document.getElementById("result-score");
 
+// Globala variabler
 let timer;
 let points;
 let currQuestion;
@@ -42,12 +43,6 @@ const startButton = document.getElementById("startButton");
 const termsdialog = document.getElementById("termsConditions");
 const condYes = document.getElementById("condYes");
 const condNo = document.getElementById("condNo");
-
-// Globala variabler
-
-// Timer variabler
-
-
 
 const clock = document.getElementById("clock");
 
@@ -173,7 +168,8 @@ function handleTimeout() {
   incorrectContainer.style.display = "block";
   answersContainer.style.pointerEvents = "none";
 }
-
+// Hämtar quiz frågor via API, urlen byggs utanför funktionen
+// för att spelaren ska kunna välja kategori och svårighetsgrad
 async function fetchQuestions(url) {
   try {
     const response = await fetch(url);
@@ -183,6 +179,7 @@ async function fetchQuestions(url) {
     }
 
     data = await response.json();
+    // Returnerar frågorna och svaren
     return data.results;
   } catch (error) {
     console.error("Error fetching questions:", error);
@@ -195,7 +192,7 @@ async function initQuiz() {
   points = 0;
   currQuestion = 1;
   pBarHorizontal.value = 10;
-  // Fetchar frågor/svar från API och Startar quizzen
+  // Laddar in första frågan
   loadQuestion();
 }
 
@@ -204,11 +201,12 @@ async function loadQuestion() {
   incorrectContainer.style.display = "none";
   correctContainer.style.display = "none";
 
-  // Slumpar fram ett nummer mellan 1 - 10
+  // Slumpar fram ett tal mellan 1 och JSON datans längd
   let randomInt = Math.floor(Math.random() * data.length);
 
   // Väljer fråga utifrån det slumpade numret
   let question = data[randomInt].question;
+  // Uppdaterar HTML med den nya frågan
   questionElement.innerHTML = question;
 
   // Gör en variabel för rätt svar utifrån det slumpade numret
@@ -221,10 +219,10 @@ async function loadQuestion() {
     answers.push(item);
   }
 
-  // Tar bort den använda frågan från datan så den inte kan användas igen
+  // Tar bort den använda frågan från JSON datan så spelaren inte får upp den igen
   data.splice(randomInt, 1);
 
-  // Slumpar fram en position i arrayen och lägger till rätt svar på den slumpade positionen.
+  // Slumpar fram en position i arrayen “answers” och lägger till rätt svar på den slumpade positionen.
   let randomPos = Math.floor(Math.random() * (answers.length + 1));
   answers.splice(randomPos, 0, correctAnswer);
 
@@ -236,12 +234,13 @@ async function loadQuestion() {
 }
 
 function checkAnswer(selectedAnswer, correctAnswer) {
+  // Kontrollerar om det valda svaret är lika med det lagrade korrekta svaret
   if (selectedAnswer === correctAnswer) {
-    // Visa correct div
+    // Isåfall - visa correct div och uppdatera poäng med 100
     correctContainer.style.display = "block";
     updateScore(100);
   } else {
-    // Visa incorrect div + rätt svar
+    // Annars visa incorrect div + rätt svar
     incorrectText.innerHTML = `❌ Incorrect. The correct answer was: ${correctAnswer}`;
     incorrectContainer.style.display = "block";
   }
@@ -436,3 +435,4 @@ popupleader.addEventListener("click", function () {
 });
 
 startButton.addEventListener("click", () => modal.close());
+
